@@ -11,6 +11,7 @@ namespace common\services;
 
 use common\models\repository\RepositoryBasic;
 use GitElephant\Repository;
+use SebastianBergmann\Diff\Differ;
 
 class RepositoryBasicService extends BaseService
 {
@@ -18,11 +19,12 @@ class RepositoryBasicService extends BaseService
     public function getRepositoryInstance($repoId){
         $repoModel=RepositoryBasic::findOne($repoId);
         $repo = Repository::open('/webCode/walle');
-        var_dump($repo->getBranches());
-        var_dump($repo->getTags());
-        var_dump($repo->getCommit());
-        var_dump($repo->getLog());
-
+        //$repo->getCaller()->execute('');
+        //var_dump($repo->getBranches());
+        var_dump($repo->getLog('master_new',null,2)->first()->getMessage()->toString());
+        var_dump($repo->getLog('master_new',null,2)->first()->getSha());
+        var_dump($repo->getLog('master',null,2)->first()->getMessage()->toString());
+        var_dump($repo->getLog('master',null,2)->first()->getSha());
     }
 
 }

@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 5.7.13, for linux-glibc2.5 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
--- Host: localhost    Database: eonline
+-- Host: localhost    Database: online
 -- ------------------------------------------------------
 -- Server version	5.6.35
 
@@ -16,31 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `host_basic`
+-- Table structure for table `el_project_detail`
 --
 
-DROP TABLE IF EXISTS `host_basic`;
+DROP TABLE IF EXISTS `el_project_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `host_basic` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `host_name` varchar(50) DEFAULT NULL,
-  `host_ip` varchar(50) DEFAULT NULL,
-  `auth_type` varchar(10) DEFAULT NULL,
-  `user_pass` varchar(2000) DEFAULT NULL,
-  `user_name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+CREATE TABLE `el_project_detail` (
+  `project_id` int(11) NOT NULL AUTO_INCREMENT,
+  `host_id` int(11) NOT NULL,
+  `web_root` varchar(45) NOT NULL,
+  `log_root` varchar(45) DEFAULT NULL,
+  `web_back` varchar(45) DEFAULT NULL,
+  `log_back` varchar(45) DEFAULT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`project_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `host_basic`
+-- Dumping data for table `el_project_detail`
 --
 
-LOCK TABLES `host_basic` WRITE;
-/*!40000 ALTER TABLE `host_basic` DISABLE KEYS */;
-INSERT INTO `host_basic` VALUES (1,'888.wcg.dev','182.92.226.92:22','1','kljkljkljklj','root');
-/*!40000 ALTER TABLE `host_basic` ENABLE KEYS */;
+LOCK TABLES `el_project_detail` WRITE;
+/*!40000 ALTER TABLE `el_project_detail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `el_project_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-08 21:56:46
+-- Dump completed on 2017-06-11 23:09:53

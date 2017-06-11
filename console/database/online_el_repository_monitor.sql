@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 5.7.13, for linux-glibc2.5 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
--- Host: localhost    Database: eonline
+-- Host: localhost    Database: online
 -- ------------------------------------------------------
 -- Server version	5.6.35
 
@@ -16,27 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `migration`
+-- Table structure for table `el_repository_monitor`
 --
 
-DROP TABLE IF EXISTS `migration`;
+DROP TABLE IF EXISTS `el_repository_monitor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `migration` (
-  `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
+CREATE TABLE `el_repository_monitor` (
+  `id` int(11) NOT NULL,
+  `repo_id` int(11) NOT NULL,
+  `branch_tag` varchar(45) NOT NULL,
+  `last_commit` varchar(45) DEFAULT NULL,
+  `last_commit_time` int(11) DEFAULT NULL,
+  `warned_commit` varchar(45) DEFAULT NULL,
+  `warned_time` int(11) DEFAULT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `migration`
+-- Dumping data for table `el_repository_monitor`
 --
 
-LOCK TABLES `migration` WRITE;
-/*!40000 ALTER TABLE `migration` DISABLE KEYS */;
-INSERT INTO `migration` VALUES ('m000000_000000_base',1496747533),('m130524_201442_init',1496747536);
-/*!40000 ALTER TABLE `migration` ENABLE KEYS */;
+LOCK TABLES `el_repository_monitor` WRITE;
+/*!40000 ALTER TABLE `el_repository_monitor` DISABLE KEYS */;
+INSERT INTO `el_repository_monitor` VALUES (1,1,'origin/master','',NULL,'',NULL,1497174782,1497174782);
+/*!40000 ALTER TABLE `el_repository_monitor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-08 21:56:46
+-- Dump completed on 2017-06-11 23:09:53

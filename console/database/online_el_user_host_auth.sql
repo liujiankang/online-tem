@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 5.7.13, for linux-glibc2.5 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
--- Host: localhost    Database: eonline
+-- Host: localhost    Database: online
 -- ------------------------------------------------------
 -- Server version	5.6.35
 
@@ -16,29 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `host_auth`
+-- Table structure for table `el_user_host_auth`
 --
 
-DROP TABLE IF EXISTS `host_auth`;
+DROP TABLE IF EXISTS `el_user_host_auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `host_auth` (
+CREATE TABLE `el_user_host_auth` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `host_id` int(11) DEFAULT '0' COMMENT '关联用户',
-  `user_id` int(11) DEFAULT '1',
-  `auth_type` int(11) DEFAULT '4',
+  `host_id` int(11) NOT NULL DEFAULT '0' COMMENT '关联用户',
+  `user_id` int(11) NOT NULL DEFAULT '1',
+  `auth_mode` int(11) NOT NULL DEFAULT '1' COMMENT 'r:4-w:2-x:1',
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `host_auth`
+-- Dumping data for table `el_user_host_auth`
 --
 
-LOCK TABLES `host_auth` WRITE;
-/*!40000 ALTER TABLE `host_auth` DISABLE KEYS */;
-INSERT INTO `host_auth` VALUES (1,1,1,7);
-/*!40000 ALTER TABLE `host_auth` ENABLE KEYS */;
+LOCK TABLES `el_user_host_auth` WRITE;
+/*!40000 ALTER TABLE `el_user_host_auth` DISABLE KEYS */;
+INSERT INTO `el_user_host_auth` VALUES (1,1,1,7,NULL,NULL);
+/*!40000 ALTER TABLE `el_user_host_auth` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-08 21:56:46
+-- Dump completed on 2017-06-11 23:09:53

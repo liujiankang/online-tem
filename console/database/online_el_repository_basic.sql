@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 5.7.13, for linux-glibc2.5 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
--- Host: localhost    Database: eonline
+-- Host: localhost    Database: online
 -- ------------------------------------------------------
 -- Server version	5.6.35
 
@@ -16,37 +16,37 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user`
+-- Table structure for table `el_repository_basic`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `el_repository_basic`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `el_repository_basic` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` smallint(6) NOT NULL DEFAULT '10',
-  `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `url` varchar(255) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT '2' COMMENT 'svn/git',
+  `auth_type` varchar(45) DEFAULT NULL COMMENT 'by username-password 1\nrecomend by rsa-key of web user 2',
+  `user_name` varchar(45) DEFAULT NULL,
+  `user_pass` varchar(45) DEFAULT NULL,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  `webdir_repodir_map` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `el_repository_basic`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'liujiankang','QUdTDFdDV4UeGURVM17x5WoyXcwwgrEj','$2y$13$kUXbDuUoBv9uI6iMvKLUN.Z3DhDpUroCfFKoghllCqj4Oe.Z.nZn2',NULL,'liujiankang@qq.com',10,1496747646,1496747646);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `el_repository_basic` WRITE;
+/*!40000 ALTER TABLE `el_repository_basic` DISABLE KEYS */;
+INSERT INTO `el_repository_basic` VALUES (1,1,'online','https://github.com/liujiankang/online-tem.git',2,'1','liujiankang','',1497166207,1497166532,'/:/');
+/*!40000 ALTER TABLE `el_repository_basic` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-08 21:56:46
+-- Dump completed on 2017-06-11 23:09:53
