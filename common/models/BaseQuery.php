@@ -11,7 +11,7 @@ namespace common\models;
 
 use \yii\db\ActiveQuery;
 
-class BaseModel extends ActiveQuery
+class BaseQuery extends ActiveQuery
 {
 
 }
