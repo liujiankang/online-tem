@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\services\RepositoryBasicService;
 use Yii;
 use yii\web\Controller;
 
@@ -43,6 +44,12 @@ class TestController extends Controller
         $curdStr = "./yii gii/crud --baseControllerClass='{$end}\\controllers\\BaseController' --controllerClass='{$end}\\controllers\\{$tableStr}Controller' --modelClass='common\\models\\{$modelClass}{$tableStr}' --searchModelClass='common\\models\\{$modelClass}{$tableStr}Search' --viewPath='{$end}/views/{$viewDir}' --indexWidgetType='grid' --messageCategory='host' --enableI18N=0 --enablePjax=0 --interactive=0 --overwrite=1";
 
         var_dump([$modelStr, $curdStr]);
+    }
+
+    public function actionTest()
+    {
+        $git=(new RepositoryBasicService())->getRepositoryInstance(1);
+        var_dump($git);
     }
 
 }

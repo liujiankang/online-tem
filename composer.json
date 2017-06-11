@@ -23,7 +23,8 @@
         "behat/behat": "^3.3",
         "kzykhys/git": "^0.1.2",
         "herzult/php-ssh":"~1.0",
-        "league/shunt": "^2.1"
+        "league/shunt": "^2.1",
+        "cypresslab/gitelephant": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
