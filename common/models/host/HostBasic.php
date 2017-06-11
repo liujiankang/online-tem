@@ -20,16 +20,6 @@ use Yii;
  */
 class HostBasic extends \common\models\BaseModel
 {
-    const AUTH_TYPE_PASSWORD = 1;
-    const AUTH_TYPE_RSA_KEY = 1;
-    static $authTypeName = [self::AUTH_TYPE_PASSWORD => 'pass', self::AUTH_TYPE_RSA_KEY => 'rsa_key'];
-
-
-    static function getAuthTypeName($type)
-    {
-        return self::$authTypeName[$type];
-    }
-
     /**
      * @inheritdoc
      */
@@ -59,25 +49,16 @@ class HostBasic extends \common\models\BaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'host_name' => Yii::t('app', 'Host Name'),
-            'host_ip' => Yii::t('app', 'Host Ip'),
-            'auth_type' => Yii::t('app', 'Auth Type'),
-            'user_pass' => Yii::t('app', 'User Pass'),
-            'user_name' => Yii::t('app', 'User Name'),
-            'rsa_key_pri' => Yii::t('app', 'Rsa Key Pri'),
-            'rsa_key_pub' => Yii::t('app', 'Rsa Key Pub'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'id' => 'ID',
+            'host_name' => 'Host Name',
+            'host_ip' => 'Host Ip',
+            'auth_type' => 'Auth Type',
+            'user_pass' => 'User Pass',
+            'user_name' => 'User Name',
+            'rsa_key_pri' => 'Rsa Key Pri',
+            'rsa_key_pub' => 'Rsa Key Pub',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
-    }
-
-    /**
-     * @inheritdoc
-     * @return HostBasicQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new HostBasicQuery(get_called_class());
     }
 }

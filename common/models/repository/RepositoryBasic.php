@@ -60,13 +60,4 @@ class RepositoryBasic extends \common\models\BaseModel
             'webdir_repodir_map' => 'Webdir Repodir Map',
         ];
     }
-
-    /**
-     * @inheritdoc
-     * @return RepositoryBasicQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new RepositoryBasicQuery(get_called_class());
-    }
 }

@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\host\HostBasicSearch */
+/* @var $searchModel common\models\repository\RepositoryBasicSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Host Basics';
+$this->title = 'Repository Basics';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="host-basic-index">
+<div class="repository-basic-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Host Basic', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Repository Basic', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,15 +26,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'host_name',
-            'host_ip',
-            'auth_type',
-            'user_pass',
-            // 'user_name',
-            // 'rsa_key_pri',
-            // 'rsa_key_pub',
+            'project_id',
+            'name',
+            'url:url',
+            'type',
+             'auth_type',
+             'user_name',
+            // 'user_pass',
             // 'created_at',
             // 'updated_at',
+            // 'webdir_repodir_map',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

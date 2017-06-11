@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\host\HostBasicSearch */
+/* @var $searchModel common\models\project\UserProjectAuthSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Host Basics';
+$this->title = 'User Project Auths';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="host-basic-index">
+<div class="user-project-auth-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Host Basic', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create User Project Auth', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,14 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'host_name',
-            'host_ip',
-            'auth_type',
-            'user_pass',
-            // 'user_name',
-            // 'rsa_key_pri',
-            // 'rsa_key_pub',
-            // 'created_at',
+            'project_id',
+            'user_id',
+            'auth_mode',
+            'created_at',
             // 'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],

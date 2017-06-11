@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\host\HostBasicSearch */
+/* @var $model common\models\host\UserHostAuthSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="host-basic-search">
+<div class="user-host-auth-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,21 +17,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'host_name') ?>
+    <?= $form->field($model, 'host_id') ?>
 
-    <?= $form->field($model, 'host_ip') ?>
+    <?= $form->field($model, 'user_id') ?>
 
-    <?= $form->field($model, 'auth_type') ?>
+    <?= $form->field($model, 'auth_mode') ?>
 
-    <?= $form->field($model, 'user_pass') ?>
-
-    <?php // echo $form->field($model, 'user_name') ?>
-
-    <?php // echo $form->field($model, 'rsa_key_pri') ?>
-
-    <?php // echo $form->field($model, 'rsa_key_pub') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
+    <?= $form->field($model, 'created_at') ?>
 
     <?php // echo $form->field($model, 'updated_at') ?>
 

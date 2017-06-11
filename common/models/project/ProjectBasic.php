@@ -46,13 +46,4 @@ class ProjectBasic extends \common\models\BaseModel
             'created_at' => 'Created At',
         ];
     }
-
-    /**
-     * @inheritdoc
-     * @return ProjectBasicQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ProjectBasicQuery(get_called_class());
-    }
 }

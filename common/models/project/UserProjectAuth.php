@@ -48,13 +48,4 @@ class UserProjectAuth extends \common\models\BaseModel
             'updated_at' => 'Updated At',
         ];
     }
-
-    /**
-     * @inheritdoc
-     * @return UserProjectAuthQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserProjectAuthQuery(get_called_class());
-    }
 }

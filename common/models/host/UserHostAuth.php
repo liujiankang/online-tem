@@ -48,13 +48,4 @@ class UserHostAuth extends \common\models\BaseModel
             'updated_at' => 'Updated At',
         ];
     }
-
-    /**
-     * @inheritdoc
-     * @return UserHostAuthQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserHostAuthQuery(get_called_class());
-    }
 }

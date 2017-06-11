@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\host\HostBasic */
+/* @var $model common\models\project\UserProjectAuth */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Host Basics', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'User Project Auths', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="host-basic-view">
+<div class="user-project-auth-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,13 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'host_name',
-            'host_ip',
-            'auth_type',
-            'user_pass',
-            'user_name',
-            'rsa_key_pri',
-            'rsa_key_pub',
+            'project_id',
+            'user_id',
+            'auth_mode',
             'created_at',
             'updated_at',
         ],

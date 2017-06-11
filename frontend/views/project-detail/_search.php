@@ -4,32 +4,28 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\host\HostBasicSearch */
+/* @var $model common\models\project\ProjectDetailSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="host-basic-search">
+<div class="project-detail-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'project_id') ?>
 
-    <?= $form->field($model, 'host_name') ?>
+    <?= $form->field($model, 'host_id') ?>
 
-    <?= $form->field($model, 'host_ip') ?>
+    <?= $form->field($model, 'web_root') ?>
 
-    <?= $form->field($model, 'auth_type') ?>
+    <?= $form->field($model, 'log_root') ?>
 
-    <?= $form->field($model, 'user_pass') ?>
+    <?= $form->field($model, 'web_back') ?>
 
-    <?php // echo $form->field($model, 'user_name') ?>
-
-    <?php // echo $form->field($model, 'rsa_key_pri') ?>
-
-    <?php // echo $form->field($model, 'rsa_key_pub') ?>
+    <?php // echo $form->field($model, 'log_back') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 
