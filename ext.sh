@@ -13,3 +13,10 @@
 ./yii gii/crud --baseControllerClass='frontend\controllers\BaseController' --controllerClass='frontend\controllers\UserProjectAuthController' --modelClass='common\models\project\UserProjectAuth' --searchModelClass='common\models\project\UserProjectAuthSearch' --viewPath='@app/views/user-project-auth' --indexWidgetType='grid' --messageCategory='project' --enableI18N=0 --enablePjax=0 --interactive=0 --overwrite=1
 ./yii gii/crud --baseControllerClass='frontend\controllers\BaseController' --controllerClass='frontend\controllers\RepositoryBasicController' --modelClass='common\models\repository\RepositoryBasic' --searchModelClass='common\models\repository\RepositoryBasicSearch' --viewPath='@app/views/repository-basic' --indexWidgetType='grid' --messageCategory='repository' --enableI18N=0 --enablePjax=0 --interactive=0 --overwrite=1
 ./yii gii/crud --baseControllerClass='frontend\controllers\BaseController' --controllerClass='frontend\controllers\UserHostAuthController' --modelClass='common\models\host\UserHostAuth' --searchModelClass='common\models\host\UserHostAuthSearch' --viewPath='@app/views/user-host-auth' --indexWidgetType='grid' --messageCategory='host' --enableI18N=0 --enablePjax=0 --interactive=0 --overwrite=1
+
+
+
+=============
+https://packagist.org/packages/cypresslab/gitelephant
+https://packagist.org/packages/kzykhys/git
+https://packagist.org/packages/teqneers/php-stream-wrapper-for-git

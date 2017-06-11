@@ -17,7 +17,11 @@ class RepositoryMonitor
     public function init($repositoryId)
     {
         $RepositoryBasic = (new RepositoryBasicService())->getRepositoryInstance($repositoryId);
-        var_dump($RepositoryBasic);
+
+    }
+
+    public function monitor($monitor,$repo){
+
     }
 
 }
