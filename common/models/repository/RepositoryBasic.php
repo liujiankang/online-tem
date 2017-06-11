@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int $project_id
  * @property string $name
- * @property int $url
+ * @property string $url
  * @property int $type svn/git
  * @property string $auth_type by username-password 1 recomend by rsa-key of web user 2
  * @property string $user_name
@@ -35,9 +35,10 @@ class RepositoryBasic extends \common\models\BaseModel
     public function rules()
     {
         return [
-            [['project_id', 'url', 'type', 'created_at', 'updated_at'], 'integer'],
+            [['project_id', 'type', 'created_at', 'updated_at'], 'integer'],
             [['url'], 'required'],
             [['name', 'auth_type', 'user_name', 'user_pass', 'webdir_repodir_map'], 'string', 'max' => 45],
+            [['url'], 'string', 'max' => 255],
         ];
     }
 

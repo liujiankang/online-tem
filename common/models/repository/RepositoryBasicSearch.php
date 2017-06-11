@@ -18,8 +18,8 @@ class RepositoryBasicSearch extends RepositoryBasic
     public function rules()
     {
         return [
-            [['id', 'project_id', 'url', 'type', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'auth_type', 'user_name', 'user_pass', 'webdir_repodir_map'], 'safe'],
+            [['id', 'project_id', 'type', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'url', 'auth_type', 'user_name', 'user_pass', 'webdir_repodir_map'], 'safe'],
         ];
     }
 
@@ -61,13 +61,13 @@ class RepositoryBasicSearch extends RepositoryBasic
         $query->andFilterWhere([
             'id' => $this->id,
             'project_id' => $this->project_id,
-            'url' => $this->url,
             'type' => $this->type,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'url', $this->url])
             ->andFilterWhere(['like', 'auth_type', $this->auth_type])
             ->andFilterWhere(['like', 'user_name', $this->user_name])
             ->andFilterWhere(['like', 'user_pass', $this->user_pass])
