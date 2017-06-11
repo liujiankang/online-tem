@@ -3,11 +3,11 @@
 namespace common\models\host;
 
 /**
- * This is the ActiveQuery class for [[HostBasic]].
+ * This is the ActiveQuery class for [[UserHostAuth]].
  *
- * @see HostBasic
+ * @see UserHostAuth
  */
-class HostBasicQuery extends \common\models\BaseQuery
+class UserHostAuthQuery extends \common\models\BaseQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class HostBasicQuery extends \common\models\BaseQuery
 
     /**
      * @inheritdoc
-     * @return HostBasic[]|array
+     * @return UserHostAuth[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class HostBasicQuery extends \common\models\BaseQuery
 
     /**
      * @inheritdoc
-     * @return HostBasic|array|null
+     * @return UserHostAuth|array|null
      */
     public function one($db = null)
     {

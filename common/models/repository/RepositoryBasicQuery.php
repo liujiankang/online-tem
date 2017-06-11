@@ -1,13 +1,13 @@
 <?php
 
-namespace common\models\host;
+namespace common\models\repository;
 
 /**
- * This is the ActiveQuery class for [[HostBasic]].
+ * This is the ActiveQuery class for [[RepositoryBasic]].
  *
- * @see HostBasic
+ * @see RepositoryBasic
  */
-class HostBasicQuery extends \common\models\BaseQuery
+class RepositoryBasicQuery extends \common\models\BaseQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class HostBasicQuery extends \common\models\BaseQuery
 
     /**
      * @inheritdoc
-     * @return HostBasic[]|array
+     * @return RepositoryBasic[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class HostBasicQuery extends \common\models\BaseQuery
 
     /**
      * @inheritdoc
-     * @return HostBasic|array|null
+     * @return RepositoryBasic|array|null
      */
     public function one($db = null)
     {

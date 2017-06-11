@@ -1,13 +1,13 @@
 <?php
 
-namespace common\models\host;
+namespace common\models\project;
 
 /**
- * This is the ActiveQuery class for [[HostBasic]].
+ * This is the ActiveQuery class for [[ProjectDetail]].
  *
- * @see HostBasic
+ * @see ProjectDetail
  */
-class HostBasicQuery extends \common\models\BaseQuery
+class ProjectDetailQuery extends \common\models\BaseQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class HostBasicQuery extends \common\models\BaseQuery
 
     /**
      * @inheritdoc
-     * @return HostBasic[]|array
+     * @return ProjectDetail[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class HostBasicQuery extends \common\models\BaseQuery
 
     /**
      * @inheritdoc
-     * @return HostBasic|array|null
+     * @return ProjectDetail|array|null
      */
     public function one($db = null)
     {
