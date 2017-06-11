@@ -3,16 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\host\HostBasic;
-use common\models\host\HostBasicSearch;
+use common\models\project\ProjectDetail;
+use common\models\project\ProjectDetailSearch;
 use frontend\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * HostBasicController implements the CRUD actions for HostBasic model.
+ * ProjectDetailController implements the CRUD actions for ProjectDetail model.
  */
-class HostBasicController extends BaseController
+class ProjectDetailController extends BaseController
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Lists all HostBasic models.
+     * Lists all ProjectDetail models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new HostBasicSearch();
+        $searchModel = new ProjectDetailSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Displays a single HostBasic model.
+     * Displays a single ProjectDetail model.
      * @param integer $id
      * @return mixed
      */
@@ -57,16 +57,16 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Creates a new HostBasic model.
+     * Creates a new ProjectDetail model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new HostBasic();
+        $model = new ProjectDetail();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->project_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -75,7 +75,7 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Updates an existing HostBasic model.
+     * Updates an existing ProjectDetail model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -85,7 +85,7 @@ class HostBasicController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->project_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -94,7 +94,7 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Deletes an existing HostBasic model.
+     * Deletes an existing ProjectDetail model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Finds the HostBasic model based on its primary key value.
+     * Finds the ProjectDetail model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return HostBasic the loaded model
+     * @return ProjectDetail the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = HostBasic::findOne($id)) !== null) {
+        if (($model = ProjectDetail::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

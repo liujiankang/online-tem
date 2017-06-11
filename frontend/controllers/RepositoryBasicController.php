@@ -3,16 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\host\HostBasic;
-use common\models\host\HostBasicSearch;
+use common\models\repository\RepositoryBasic;
+use common\models\repository\RepositoryBasicSearch;
 use frontend\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * HostBasicController implements the CRUD actions for HostBasic model.
+ * RepositoryBasicController implements the CRUD actions for RepositoryBasic model.
  */
-class HostBasicController extends BaseController
+class RepositoryBasicController extends BaseController
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Lists all HostBasic models.
+     * Lists all RepositoryBasic models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new HostBasicSearch();
+        $searchModel = new RepositoryBasicSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Displays a single HostBasic model.
+     * Displays a single RepositoryBasic model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Creates a new HostBasic model.
+     * Creates a new RepositoryBasic model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new HostBasic();
+        $model = new RepositoryBasic();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Updates an existing HostBasic model.
+     * Updates an existing RepositoryBasic model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +94,7 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Deletes an existing HostBasic model.
+     * Deletes an existing RepositoryBasic model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class HostBasicController extends BaseController
     }
 
     /**
-     * Finds the HostBasic model based on its primary key value.
+     * Finds the RepositoryBasic model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return HostBasic the loaded model
+     * @return RepositoryBasic the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = HostBasic::findOne($id)) !== null) {
+        if (($model = RepositoryBasic::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
