@@ -1,7 +1,9 @@
-# yii console commands
-/yii
-/yii_test
-/yii_test.bat
+# yii project
+/backend/runtime/*
+/frontend/runtime/*
+/console/runtime/*
+/frontend/web/assets/*
+/backend/web/assets/*
 
 # phpstorm project files
 .idea
