@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
--- Host: localhost    Database: online
+-- Host: localhost    Database: walle
 -- ------------------------------------------------------
 -- Server version	5.6.35
 
@@ -16,36 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `el_repository_basic`
+-- Table structure for table `session`
 --
 
-DROP TABLE IF EXISTS `el_repository_basic`;
+DROP TABLE IF EXISTS `session`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `el_repository_basic` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `url` varchar(255) NOT NULL,
-  `type` int(11) NOT NULL DEFAULT '2' COMMENT 'svn/git',
-  `auth_type` varchar(45) DEFAULT NULL COMMENT 'by username-password 1\nrecomend by rsa-key of web user 2',
-  `user_name` varchar(45) DEFAULT NULL,
-  `user_pass` varchar(45) DEFAULT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  `local_path` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+CREATE TABLE `session` (
+  `id` varchar(40) NOT NULL,
+  `expire` int(10) unsigned DEFAULT NULL,
+  `data` blob,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `el_repository_basic`
+-- Dumping data for table `session`
 --
 
-LOCK TABLES `el_repository_basic` WRITE;
-/*!40000 ALTER TABLE `el_repository_basic` DISABLE KEYS */;
-INSERT INTO `el_repository_basic` VALUES (1,'online','https://github.com/liujiankang/online-tem.git',2,'1','liujiankang1','LJK@bj565',1497166207,1497194148,NULL);
-/*!40000 ALTER TABLE `el_repository_basic` ENABLE KEYS */;
+LOCK TABLES `session` WRITE;
+/*!40000 ALTER TABLE `session` DISABLE KEYS */;
+INSERT INTO `session` VALUES ('eep6sfn6sv0nfbnohg0ksvo661',1496498247,'__flash|a:0:{}__id|i:1;');
+/*!40000 ALTER TABLE `session` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -57,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-17 17:00:48
+-- Dump completed on 2017-06-17 17:00:47

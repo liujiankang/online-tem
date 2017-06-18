@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
--- Host: localhost    Database: online
+-- Host: localhost    Database: walle
 -- ------------------------------------------------------
 -- Server version	5.6.35
 
@@ -16,36 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `el_repository_basic`
+-- Table structure for table `migration`
 --
 
-DROP TABLE IF EXISTS `el_repository_basic`;
+DROP TABLE IF EXISTS `migration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `el_repository_basic` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `url` varchar(255) NOT NULL,
-  `type` int(11) NOT NULL DEFAULT '2' COMMENT 'svn/git',
-  `auth_type` varchar(45) DEFAULT NULL COMMENT 'by username-password 1\nrecomend by rsa-key of web user 2',
-  `user_name` varchar(45) DEFAULT NULL,
-  `user_pass` varchar(45) DEFAULT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  `local_path` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+CREATE TABLE `migration` (
+  `version` varchar(180) NOT NULL,
+  `apply_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `el_repository_basic`
+-- Dumping data for table `migration`
 --
 
-LOCK TABLES `el_repository_basic` WRITE;
-/*!40000 ALTER TABLE `el_repository_basic` DISABLE KEYS */;
-INSERT INTO `el_repository_basic` VALUES (1,'online','https://github.com/liujiankang/online-tem.git',2,'1','liujiankang1','LJK@bj565',1497166207,1497194148,NULL);
-/*!40000 ALTER TABLE `el_repository_basic` ENABLE KEYS */;
+LOCK TABLES `migration` WRITE;
+/*!40000 ALTER TABLE `migration` DISABLE KEYS */;
+INSERT INTO `migration` VALUES ('m000000_000000_base',1496485250),('m140328_144900_init',1496485254),('m150926_151034_init_user',1496485254),('m150927_061454_alter_conf_to_mysql',1496485255),('m150929_004629_change_record_action',1496485255),('m150929_034627_session_to_mysql',1496485255),('m150929_115951_project_user_group',1496485255),('m151005_001053_alter_conf_2_project',1496485255),('m151010_050344_group_user_admin',1496485255),('m151011_054352_task_need_more_long',1496485255),('m151012_135612_task_add_branch',1496485255),('m151014_115546_add_pre_release_task',1496485255),('m151018_032238_support_svn',1496485256),('m151027_063246_keep_version_num',1496485256),('m160307_082032_ansible',1496485256),('m160402_173643_add_post_release_delay',1496485256),('m160418_035413_user_status_migrate',1496485256),('m160420_015223_add_file_transmission_mode',1496485256);
+/*!40000 ALTER TABLE `migration` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -57,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-17 17:00:48
+-- Dump completed on 2017-06-17 17:00:47
