@@ -1,12 +1,13 @@
 <?php
-return [
+$config = [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=yii2advanced',
+            'dsn' => 'mysql:host=172.18.0.1;dbname=online',
             'username' => 'root',
-            'password' => '',
+            'password' => 'root',
             'charset' => 'utf8',
+            'tablePrefix'=>'el_'
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -18,3 +19,13 @@ return [
         ],
     ],
 ];
+$config['bootstrap'][] = 'debug';
+$config['modules']['debug'] = [
+    'class' => 'yii\debug\Module',
+];
+
+$config['bootstrap'][] = 'gii';
+$config['modules']['gii'] = [
+    'class' => 'yii\gii\Module',
+];
+return $config;

@@ -2,12 +2,14 @@
 
 namespace frontend\controllers;
 
+use common\services\HostBasicService;
 use Yii;
 use common\models\host\HostBasic;
 use common\models\host\HostBasicSearch;
 use frontend\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * HostBasicController implements the CRUD actions for HostBasic model.
@@ -120,5 +122,11 @@ class HostBasicController extends BaseController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+
+    public function actionTestConnection($hostId){
+        (new HostBasicService())->connect();
+
     }
 }
