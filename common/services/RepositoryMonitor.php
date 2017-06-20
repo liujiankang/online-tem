@@ -14,10 +14,11 @@ use common\models\repository\RepositoryBasic;
 class RepositoryMonitor
 {
 
+    public $RepositoryBasic;
     public function init($repositoryId)
     {
-        $RepositoryBasic = (new RepositoryBasicService())->getRepositoryInstance($repositoryId);
-
+        $this->RepositoryBasic = (new RepositoryBasicService())->getRepositoryInstance($repositoryId);
+        return $this;
     }
 
     public function monitor($monitor,$repo){

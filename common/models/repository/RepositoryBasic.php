@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "el_repository_basic".
  *
  * @property int $id
- * @property int $project_id
  * @property string $name
  * @property string $url
  * @property int $type svn/git
@@ -17,10 +16,14 @@ use Yii;
  * @property string $user_pass
  * @property int $created_at
  * @property int $updated_at
- * @property string $webdir_repodir_map
+ * @property string $local_path
  */
 class RepositoryBasic extends \common\models\BaseModel
 {
+    const AUTH_TYPE_PASSWORD = 1;
+    const AUTH_TYPE_RSAKEY = 2;
+
+
     /**
      * @inheritdoc
      */
@@ -35,10 +38,10 @@ class RepositoryBasic extends \common\models\BaseModel
     public function rules()
     {
         return [
-            [['project_id', 'type', 'created_at', 'updated_at'], 'integer'],
             [['url'], 'required'],
-            [['name', 'auth_type', 'user_name', 'user_pass', 'webdir_repodir_map'], 'string', 'max' => 45],
-            [['url'], 'string', 'max' => 255],
+            [['type', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'auth_type', 'user_name', 'user_pass'], 'string', 'max' => 45],
+            [['url', 'local_path'], 'string', 'max' => 255],
         ];
     }
 
@@ -49,7 +52,6 @@ class RepositoryBasic extends \common\models\BaseModel
     {
         return [
             'id' => 'ID',
-            'project_id' => 'Project ID',
             'name' => 'Name',
             'url' => 'Url',
             'type' => 'Type',
@@ -58,7 +60,7 @@ class RepositoryBasic extends \common\models\BaseModel
             'user_pass' => 'User Pass',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'webdir_repodir_map' => 'Webdir Repodir Map',
+            'local_path' => 'Local Path',
         ];
     }
 }

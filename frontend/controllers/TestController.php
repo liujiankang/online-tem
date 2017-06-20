@@ -52,4 +52,27 @@ class TestController extends Controller
         var_dump($git);
     }
 
+    public function actionTest2()
+    {
+        $responseDir='';
+        $bachDir='';
+        $response=$_GET['response'];
+        if(empty($response)){
+            echo '分支不能为空';
+            exit;
+        }
+        foreach (['yii,app,www,mg'] as $val){
+            $this->getLast($responseDir.'/'.$val,'master');
+            $this->getLast($responseDir.'/'.$val,'dev');
+            $cmd="cd $responseDir/$val; git diff --name-only";
+            $result=exec($cmd);
+            var_dump($result);
+        }
+    }
+
+    public function getLast($dir,$repo){
+        $cmd="cd $dir; git checkout master;git pull origin master; git log | head -n 1";
+        var_dump($cmd);
+    }
+
 }

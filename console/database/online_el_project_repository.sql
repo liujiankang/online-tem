@@ -16,36 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `el_repository_basic`
+-- Table structure for table `el_project_repository`
 --
 
-DROP TABLE IF EXISTS `el_repository_basic`;
+DROP TABLE IF EXISTS `el_project_repository`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `el_repository_basic` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `url` varchar(255) NOT NULL,
-  `type` int(11) NOT NULL DEFAULT '2' COMMENT 'svn/git',
-  `auth_type` varchar(45) DEFAULT NULL COMMENT 'by username-password 1\nrecomend by rsa-key of web user 2',
-  `user_name` varchar(45) DEFAULT NULL,
-  `user_pass` varchar(45) DEFAULT NULL,
+CREATE TABLE `el_project_repository` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `project_id` int(11) NOT NULL DEFAULT '0' COMMENT '关联用户',
+  `repository_id` int(11) NOT NULL DEFAULT '1',
+  `webdir_repodir_map` varchar(255) NOT NULL DEFAULT '/:/',
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  `local_path` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `updated_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `el_repository_basic`
+-- Dumping data for table `el_project_repository`
 --
 
-LOCK TABLES `el_repository_basic` WRITE;
-/*!40000 ALTER TABLE `el_repository_basic` DISABLE KEYS */;
-INSERT INTO `el_repository_basic` VALUES (1,'online','https://github.com/liujiankang/online-tem.git',2,'1','liujiankang1','LJK@bj565',1497166207,1497194148,NULL);
-/*!40000 ALTER TABLE `el_repository_basic` ENABLE KEYS */;
+LOCK TABLES `el_project_repository` WRITE;
+/*!40000 ALTER TABLE `el_project_repository` DISABLE KEYS */;
+INSERT INTO `el_project_repository` VALUES (1,1,1,'7',NULL,NULL);
+/*!40000 ALTER TABLE `el_project_repository` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

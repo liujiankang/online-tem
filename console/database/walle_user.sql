@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
--- Host: localhost    Database: online
+-- Host: localhost    Database: walle
 -- ------------------------------------------------------
 -- Server version	5.6.35
 
@@ -16,35 +16,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `el_host_basic`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `el_host_basic`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `el_host_basic` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `host_name` varchar(50) DEFAULT NULL,
-  `host_ip` varchar(50) NOT NULL,
-  `auth_type` int(11) NOT NULL DEFAULT '1',
-  `user_pass` varchar(100) DEFAULT NULL,
-  `user_name` varchar(45) DEFAULT NULL,
-  `rsa_key_pri` varchar(500) DEFAULT NULL,
-  `rsa_key_pub` varchar(500) DEFAULT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `is_email_verified` tinyint(1) NOT NULL DEFAULT '0',
+  `auth_key` varchar(32) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `password_reset_token` varchar(255) DEFAULT NULL,
+  `email_confirmation_token` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `avatar` varchar(100) DEFAULT 'default.jpg' COMMENT '头像图片地址',
+  `role` smallint(6) NOT NULL DEFAULT '1',
+  `status` smallint(6) NOT NULL DEFAULT '1',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `realname` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `el_host_basic`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `el_host_basic` WRITE;
-/*!40000 ALTER TABLE `el_host_basic` DISABLE KEYS */;
-INSERT INTO `el_host_basic` VALUES (1,'888.wcg.dev','182.92.226.92:22',1,'kljkljkljklj','root',NULL,NULL,NULL,NULL),(2,'yanjun-lenovo','192.168.1.8:25519',2,'','root','','',1497165303,1497165303);
-/*!40000 ALTER TABLE `el_host_basic` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'admin',1,'cJIrTa_b2Hnjn6BZkrL8PJkYto2Ael3O','$2y$13$PB5IFQ9IEvuvDmSnUsPErOKT3NZ.xEGNLg3aTTJRq0zycv/XO0wUW',NULL,'UpToOIawm1L8GjN6pLO4r-1oj20nLT5f_1443280741','admin@xxx.com','default.jpg',2,2,'2015-09-26 21:20:32','2015-09-26 21:20:32','管理员'),(2,'demo',1,'RpFh1J9E0MrGY31e_Z7GIh3EkC6hS0aa','$2y$13$YoqhrkWcr1ZXADOSkj4S..jUAWlIrXdfcP00STqEMpF1d1b85SU7a',NULL,'YnR4Z6bfK3fle7QP_t6wcnB5zSP__nkz_1443280906','admin@xxx.com','default.jpg',1,1,'2015-09-26 21:20:32','2015-09-26 21:20:32','demo');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-17 17:00:48
+-- Dump completed on 2017-06-17 17:00:47

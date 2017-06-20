@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
--- Host: localhost    Database: online
+-- Host: localhost    Database: walle
 -- ------------------------------------------------------
 -- Server version	5.6.35
 
@@ -16,32 +16,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `el_project_detail`
+-- Table structure for table `task`
 --
 
-DROP TABLE IF EXISTS `el_project_detail`;
+DROP TABLE IF EXISTS `task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `el_project_detail` (
-  `project_id` int(11) NOT NULL AUTO_INCREMENT,
-  `host_id` int(11) NOT NULL,
-  `web_root` varchar(45) NOT NULL,
-  `log_root` varchar(45) DEFAULT NULL,
-  `web_back` varchar(45) DEFAULT NULL,
-  `log_back` varchar(45) DEFAULT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`project_id`)
+CREATE TABLE `task` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(21) unsigned NOT NULL COMMENT '用户id',
+  `project_id` int(21) NOT NULL DEFAULT '0' COMMENT '项目id',
+  `action` smallint(1) NOT NULL DEFAULT '0' COMMENT '0全新上线，2回滚',
+  `status` smallint(1) NOT NULL DEFAULT '0' COMMENT '状态0：新建提交，1审核通过，2审核拒绝，3上线完成，4上线失败',
+  `title` varchar(100) DEFAULT '' COMMENT '上线的软链号',
+  `link_id` varchar(20) DEFAULT '' COMMENT '上线的软链号',
+  `ex_link_id` varchar(20) DEFAULT '' COMMENT '上一次上线的软链号',
+  `commit_id` varchar(100) DEFAULT '' COMMENT 'git commit id',
+  `branch` varchar(100) DEFAULT 'master' COMMENT '选择上线的分支',
+  `file_transmission_mode` smallint(3) NOT NULL DEFAULT '1' COMMENT '上线文件模式: 1.全量所有文件 2.指定文件列表',
+  `file_list` text COMMENT '文件列表，svn上线方式可能会产生',
+  `enable_rollback` int(1) NOT NULL DEFAULT '1' COMMENT '能否回滚此版本:0no 1yes',
+  `created_at` datetime DEFAULT NULL COMMENT '创建时间',
+  `updated_at` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `el_project_detail`
+-- Dumping data for table `task`
 --
 
-LOCK TABLES `el_project_detail` WRITE;
-/*!40000 ALTER TABLE `el_project_detail` DISABLE KEYS */;
-/*!40000 ALTER TABLE `el_project_detail` ENABLE KEYS */;
+LOCK TABLES `task` WRITE;
+/*!40000 ALTER TABLE `task` DISABLE KEYS */;
+/*!40000 ALTER TABLE `task` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
