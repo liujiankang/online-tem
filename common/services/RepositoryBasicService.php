@@ -17,25 +17,28 @@ use yii\helpers\FileHelper;
 class RepositoryBasicService extends BaseService
 {
 
-    public function getRepositoryInstance($repoId){
-        $comd="ls -al /";$this->var_exec($comd);
-        $comd="pwd";$this->var_exec($comd);
-        $comd="who";$this->var_exec($comd);
-        $comd="echo '1234567890' >> /home/www-data/123.txt";$this->var_exec($comd);
+    public function getRepositoryInstance($repoId)
+    {
+        $comd = "ls -al /";
+        $this->var_exec($comd);
+        $comd = "pwd";
+        $this->var_exec($comd);
+        $comd = "who";
+        $this->var_exec($comd);
+        $comd = "echo '1234567890' >> /home/www-data/123.txt";
+        $this->var_exec($comd);
 
-        $fhand=fopen('/home/www-data/123.txt','a+');
-        fwrite($fhand,'123456');
+        $fhand = fopen('/home/www-data/123.txt', 'a+');
+        fwrite($fhand, '123456');
         fclose($fhand);
         FileHelper::findFiles('dd');
         die;
 
 
+        $repoModel = RepositoryBasic::findOne($repoId);
+        if ($repoModel->auth_type == RepositoryBasic::AUTH_TYPE_PASSWORD) {
 
-
-        $repoModel=RepositoryBasic::findOne($repoId);
-        if($repoModel->auth_type==RepositoryBasic::AUTH_TYPE_PASSWORD){
-
-        }else{
+        } else {
 
         }
         $repo = Repository::open('/webCode/walle');
@@ -44,14 +47,22 @@ class RepositoryBasicService extends BaseService
         Repository::createFromRemote();
         //$repo->getCaller()->execute('');
         //var_dump($repo->getBranches());
-        var_dump($repo->getLog('master_new',null,2)->first()->getMessage()->toString());
-        var_dump($repo->getLog('master_new',null,2)->first()->getSha());
-        var_dump($repo->getLog('master',null,2)->first()->getMessage()->toString());
-        var_dump($repo->getLog('master',null,2)->first()->getSha());
+        var_dump($repo->getLog('master_new', null, 2)->first()->getMessage()->toString());
+        var_dump($repo->getLog('master_new', null, 2)->first()->getSha());
+        var_dump($repo->getLog('master', null, 2)->first()->getMessage()->toString());
+        var_dump($repo->getLog('master', null, 2)->first()->getSha());
+        return $this;
     }
 
-    public function var_exec($cmd){
-        $reslut=exec($cmd);
+    public function var_exec($cmd)
+    {
+        $reslut = exec($cmd);
         var_dump($reslut);
+    }
+
+
+    public function getLastCommit($tagOrBranch = null)
+    {
+        return new \GitElephant\Objects\Commit\Message(1);
     }
 }

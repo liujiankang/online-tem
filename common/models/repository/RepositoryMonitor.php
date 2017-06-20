@@ -57,4 +57,10 @@ class RepositoryMonitor extends \common\models\BaseModel
             'updated_at' => 'Updated At',
         ];
     }
+
+
+    public function getRepository()
+    {
+        return $this->hasOne(RepositoryBasic::className(), ['id' => 'repo_id']);
+    }
 }
