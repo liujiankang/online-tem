@@ -16,32 +16,26 @@ use yii\helpers\FileHelper;
 
 class RepositoryBasicService extends BaseService
 {
+    public $authFile;
+    public function setAuth(RepositoryBasic $repositoryBasic){
 
-    public function getRepositoryInstance($repoId)
+    }
+    public function unsetAuth(){
+
+    }
+    public function getRepositoryInstance(RepositoryBasic $repositoryBasic)
     {
-        $comd = "ls -al /";
-        $this->var_exec($comd);
-        $comd = "pwd";
-        $this->var_exec($comd);
-        $comd = "who";
-        $this->var_exec($comd);
-        $comd = "echo '1234567890' >> /home/www-data/123.txt";
-        $this->var_exec($comd);
+        if(!empty($repositoryBasic->local_path)){
+            $RepositoryInstance=Repository::open($repositoryBasic->local_path);
+        }else{
 
-        $fhand = fopen('/home/www-data/123.txt', 'a+');
-        fwrite($fhand, '123456');
-        fclose($fhand);
-        FileHelper::findFiles('dd');
-        die;
-
-
+        }
         $repoModel = RepositoryBasic::findOne($repoId);
         if ($repoModel->auth_type == RepositoryBasic::AUTH_TYPE_PASSWORD) {
 
         } else {
 
         }
-        $repo = Repository::open('/webCode/walle');
         $repo->init(); // init
         $repo->cloneFrom("git://github.com/matteosister/GitElephant.git");
         Repository::createFromRemote();

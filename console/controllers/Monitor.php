@@ -28,7 +28,6 @@ class Monitor extends BaseController
         //对比确定是否分发
         */
         $now = time();
-        $warningInterval = 10;
         $RepositoryMonitors = RepositoryMonitor::find()->select('id')->column();
 
         foreach ($RepositoryMonitors as $MonitorId) {
@@ -39,7 +38,8 @@ class Monitor extends BaseController
 
                 if ($MonitorRepository->warned_commit != $latestCommitHash
                     || ($MonitorRepository->warned_commit == $latestCommitHash && abs($MonitorRepository->warned_time - $now) > $MonitorRepository->warned_interval)
-                ) {//如果已经警告过，且超过了警告周期
+                ) {
+                    //如果已经警告过，且超过了警告周期
                     //send message
                     $MonitorRepository->warned_commit = $latestCommitHash;
                     $MonitorRepository->warned_time = $now;
