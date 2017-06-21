@@ -20,11 +20,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'last_commit')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'last_commit_time')->textInput() ?>
+    <?= $form->field($model, 'last_monitor_time')->textInput() ?>
 
     <?= $form->field($model, 'warned_commit')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'warned_time')->textInput() ?>
+
+    <?= $form->field($model, 'warned_interval')->textInput() ?>
+
+    <?= $form->field($model, 'warned_end_time')->textInput() ?>
 
     <?= $form->field($model, 'created_at')->textInput() ?>
 

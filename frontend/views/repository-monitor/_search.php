@@ -23,11 +23,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'last_commit') ?>
 
-    <?= $form->field($model, 'last_commit_time') ?>
+    <?= $form->field($model, 'last_monitor_time') ?>
 
     <?php // echo $form->field($model, 'warned_commit') ?>
 
     <?php // echo $form->field($model, 'warned_time') ?>
+
+    <?php // echo $form->field($model, 'warned_interval') ?>
+
+    <?php // echo $form->field($model, 'warned_end_time') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

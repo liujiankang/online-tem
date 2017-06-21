@@ -11,9 +11,11 @@ use Yii;
  * @property int $repo_id
  * @property string $branch_tag
  * @property string $last_commit
- * @property int $last_commit_time
+ * @property int $last_monitor_time
  * @property string $warned_commit
  * @property int $warned_time
+ * @property int $warned_interval
+ * @property int $warned_end_time
  * @property int $created_at
  * @property int $updated_at
  */
@@ -34,7 +36,7 @@ class RepositoryMonitor extends \common\models\BaseModel
     {
         return [
             [['id', 'repo_id', 'branch_tag'], 'required'],
-            [['id', 'repo_id', 'last_commit_time', 'warned_time', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'repo_id', 'last_monitor_time', 'warned_time', 'warned_interval', 'warned_end_time', 'created_at', 'updated_at'], 'integer'],
             [['branch_tag', 'last_commit', 'warned_commit'], 'string', 'max' => 45],
             [['id'], 'unique'],
         ];
@@ -50,9 +52,11 @@ class RepositoryMonitor extends \common\models\BaseModel
             'repo_id' => 'Repo ID',
             'branch_tag' => 'Branch Tag',
             'last_commit' => 'Last Commit',
-            'last_commit_time' => 'Last Commit Time',
+            'last_monitor_time' => 'Last Monitor Time',
             'warned_commit' => 'Warned Commit',
             'warned_time' => 'Warned Time',
+            'warned_interval' => 'Warned Interval',
+            'warned_end_time' => 'Warned End Time',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

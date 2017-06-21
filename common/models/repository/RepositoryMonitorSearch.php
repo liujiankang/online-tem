@@ -18,7 +18,7 @@ class RepositoryMonitorSearch extends RepositoryMonitor
     public function rules()
     {
         return [
-            [['id', 'repo_id', 'last_commit_time', 'warned_time', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'repo_id', 'last_monitor_time', 'warned_time', 'warned_interval', 'warned_end_time', 'created_at', 'updated_at'], 'integer'],
             [['branch_tag', 'last_commit', 'warned_commit'], 'safe'],
         ];
     }
@@ -61,8 +61,10 @@ class RepositoryMonitorSearch extends RepositoryMonitor
         $query->andFilterWhere([
             'id' => $this->id,
             'repo_id' => $this->repo_id,
-            'last_commit_time' => $this->last_commit_time,
+            'last_monitor_time' => $this->last_monitor_time,
             'warned_time' => $this->warned_time,
+            'warned_interval' => $this->warned_interval,
+            'warned_end_time' => $this->warned_end_time,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
