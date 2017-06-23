@@ -28,7 +28,6 @@ class Monitor extends BaseController
         //对比确定是否分发
         */
         $now = time();
-        $warningInterval = 10;
         $RepositoryMonitors = RepositoryMonitor::find()->select('id')->column();
 
         foreach ($RepositoryMonitors as $MonitorId) {
