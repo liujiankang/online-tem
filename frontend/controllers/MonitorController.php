@@ -32,15 +32,21 @@ class MonitorController extends BaseController
 
         foreach ($RepositoryMonitors as $MonitorId) {
             $MonitorRepository = RepositoryMonitor::findOne($MonitorId);
+            $RepositoryBasic = $MonitorRepository->getRepository();
             $RepositoryInstance = (new RepositoryBasicService())->getRepositoryInstance($MonitorRepository->getRepository());
-            $latestCommitHash = $RepositoryInstance->getLastCommit($MonitorRepository->branch_tag)->getFullMessage();
+            $latestCommitHash = $RepositoryInstance->getCommit($RepositoryBasic->branch_tag)->getSha();
+            if (empty($MonitorRepository->last_commit)) {
+                $MonitorRepository->last_commit = $latestCommitHash;
+                $MonitorRepository->save();
+                $MonitorRepository->refresh();
+            }
             if ($MonitorRepository->last_commit != $latestCommitHash) {
-
                 if ($MonitorRepository->warned_commit != $latestCommitHash
                     || ($MonitorRepository->warned_commit == $latestCommitHash && abs($MonitorRepository->warned_time - $now) > $MonitorRepository->warned_interval)
                 ) {
                     //如果已经警告过，且超过了警告周期
                     //send message
+                    var_dump('send message', __CLASS__);
                     $MonitorRepository->warned_commit = $latestCommitHash;
                     $MonitorRepository->warned_time = $now;
 

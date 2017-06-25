@@ -16,6 +16,10 @@ use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
 use Yii;
 
+/*
+ * @ Repository $repositoryInstance
+ * */
+
 class RepositoryBasicService extends BaseService
 {
     public $authFile;
@@ -77,17 +81,19 @@ class RepositoryBasicService extends BaseService
             throw $e;
         }
 
-        $commit=$RepositoryInstance->getCommit();
-        var_dump($commit->getMessage());
-        var_dump($commit->getSha());
-        var_dump($commit->getCommitter());
-        var_dump($commit->getContainedIn());
-        var_dump($commit->getTree());
-        var_dump($commit->getRepository());
-        var_dump($commit->getDiff());
-        var_dump($commit->getParents());
-        $this->repositoryInstance = $RepositoryInstance;
-        return $this;
+        return $RepositoryInstance;
+
+//        $commit = $RepositoryInstance->getCommit();
+//        var_dump($commit->getMessage());
+//        var_dump($commit->getSha());
+//        var_dump($commit->getCommitter());
+//        var_dump($commit->getContainedIn());
+//        var_dump($commit->getTree());
+//        //var_dump($commit->getRepository());
+//        //var_dump($commit->getDiff());
+//        var_dump($commit->getParents());
+//        $this->repositoryInstance = $RepositoryInstance;
+//        return $this;
 
 //        $repo->cloneFrom("git://github.com/matteosister/GitElephant.git");
 //        Repository::createFromRemote();
@@ -100,23 +106,23 @@ class RepositoryBasicService extends BaseService
 //        return $this;
     }
 
-    public function var_exec($cmd)
-    {
-        $reslut = exec($cmd, $output, $res);
-        var_dump([$cmd, $reslut, $output, $res]);
-    }
-
-
     public function getLastCommit($tagOrBranch = null)
     {
         if ($this->repositoryInstance && ($this->repositoryInstance instanceof Repository)) {
-            $hash=$this->repositoryInstance->getCommit($tagOrBranch)->getSha();
-            $message=$this->repositoryInstance->getCommit($tagOrBranch)->getMessage();
+            $hash = $this->repositoryInstance->getCommit($tagOrBranch)->getSha();
+            $message = $this->repositoryInstance->getCommit($tagOrBranch)->getMessage();
 
-            var_dump([$hash,$message]);die;
+            var_dump([$hash, $message]);
+            die;
 
         } else {
             throw new \Exception('没有实例化库');
         }
+    }
+
+    public function isHaveBranch(Repository $repo,$tag){
+        $allBranch=$repo->getBranches();
+        $allBranch=$repo->getBranches(true);
+        $allBranch=$repo->getBranchOrTag('master');
     }
 }

@@ -36,3 +36,7 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
+backend/config/key/
+backend/repository/
+common/behavoir/
+Would skip repository common/data/2ef730d9be7e311a9696f8b40cdcdd09
