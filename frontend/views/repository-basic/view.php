@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'project_id',
             'name',
             'url:url',
             'type',
@@ -38,7 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_pass',
             'created_at',
             'updated_at',
-            'webdir_repodir_map',
+            'local_path',
+            'id_rsa:ntext',
+            'id_rsa_pub:ntext',
         ],
     ]) ?>
 

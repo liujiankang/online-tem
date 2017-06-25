@@ -17,6 +17,8 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  * @property string $local_path
+ * @property string $id_rsa
+ * @property string $id_rsa_pub
  */
 class RepositoryBasic extends \common\models\BaseModel
 {
@@ -40,6 +42,7 @@ class RepositoryBasic extends \common\models\BaseModel
         return [
             [['url'], 'required'],
             [['type', 'created_at', 'updated_at'], 'integer'],
+            [['id_rsa', 'id_rsa_pub'], 'string'],
             [['name', 'auth_type', 'user_name', 'user_pass'], 'string', 'max' => 45],
             [['url', 'local_path'], 'string', 'max' => 255],
         ];
@@ -61,6 +64,8 @@ class RepositoryBasic extends \common\models\BaseModel
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'local_path' => 'Local Path',
+            'id_rsa' => 'Id Rsa',
+            'id_rsa_pub' => 'Id Rsa Pub',
         ];
     }
 }

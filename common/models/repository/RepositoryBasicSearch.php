@@ -19,7 +19,7 @@ class RepositoryBasicSearch extends RepositoryBasic
     {
         return [
             [['id', 'type', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'url', 'auth_type', 'user_name', 'user_pass', 'local_path'], 'safe'],
+            [['name', 'url', 'auth_type', 'user_name', 'user_pass', 'local_path', 'id_rsa', 'id_rsa_pub'], 'safe'],
         ];
     }
 
@@ -70,7 +70,9 @@ class RepositoryBasicSearch extends RepositoryBasic
             ->andFilterWhere(['like', 'auth_type', $this->auth_type])
             ->andFilterWhere(['like', 'user_name', $this->user_name])
             ->andFilterWhere(['like', 'user_pass', $this->user_pass])
-            ->andFilterWhere(['like', 'local_path', $this->local_path]);
+            ->andFilterWhere(['like', 'local_path', $this->local_path])
+            ->andFilterWhere(['like', 'id_rsa', $this->id_rsa])
+            ->andFilterWhere(['like', 'id_rsa_pub', $this->id_rsa_pub]);
 
         return $dataProvider;
     }

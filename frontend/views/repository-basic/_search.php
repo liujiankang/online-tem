@@ -17,15 +17,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'project_id') ?>
-
     <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'url') ?>
 
     <?= $form->field($model, 'type') ?>
 
-    <?php // echo $form->field($model, 'auth_type') ?>
+    <?= $form->field($model, 'auth_type') ?>
 
     <?php // echo $form->field($model, 'user_name') ?>
 
@@ -35,7 +33,11 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'updated_at') ?>
 
-    <?php // echo $form->field($model, 'webdir_repodir_map') ?>
+    <?php // echo $form->field($model, 'local_path') ?>
+
+    <?php // echo $form->field($model, 'id_rsa') ?>
+
+    <?php // echo $form->field($model, 'id_rsa_pub') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
