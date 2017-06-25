@@ -32,7 +32,6 @@ class MonitorController extends BaseController
 
         foreach ($RepositoryMonitors as $MonitorId) {
             $MonitorRepository = RepositoryMonitor::findOne($MonitorId);
-            var_dump($MonitorRepository->getRepository()->attributes);die;
             $RepositoryInstance = (new RepositoryBasicService())->getRepositoryInstance($MonitorRepository->getRepository());
             $latestCommitHash = $RepositoryInstance->getLastCommit($MonitorRepository->branch_tag)->getFullMessage();
             if ($MonitorRepository->last_commit != $latestCommitHash) {
