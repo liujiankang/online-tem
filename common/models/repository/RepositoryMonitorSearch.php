@@ -18,8 +18,8 @@ class RepositoryMonitorSearch extends RepositoryMonitor
     public function rules()
     {
         return [
-            [['id', 'repo_id', 'last_monitor_time', 'warned_time', 'warned_interval', 'warned_end_time', 'created_at', 'updated_at'], 'integer'],
-            [['branch_tag', 'last_commit', 'warned_commit'], 'safe'],
+            [['id', 'repo_id', 'last_monitor_time', 'warned_time', 'created_at', 'updated_at', 'warned_interval', 'warned_end_time'], 'integer'],
+            [['branch_tag', 'last_commit', 'last_commit_message', 'warned_commit'], 'safe'],
         ];
     }
 
@@ -63,14 +63,15 @@ class RepositoryMonitorSearch extends RepositoryMonitor
             'repo_id' => $this->repo_id,
             'last_monitor_time' => $this->last_monitor_time,
             'warned_time' => $this->warned_time,
-            'warned_interval' => $this->warned_interval,
-            'warned_end_time' => $this->warned_end_time,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'warned_interval' => $this->warned_interval,
+            'warned_end_time' => $this->warned_end_time,
         ]);
 
         $query->andFilterWhere(['like', 'branch_tag', $this->branch_tag])
             ->andFilterWhere(['like', 'last_commit', $this->last_commit])
+            ->andFilterWhere(['like', 'last_commit_message', $this->last_commit_message])
             ->andFilterWhere(['like', 'warned_commit', $this->warned_commit]);
 
         return $dataProvider;

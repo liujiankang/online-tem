@@ -32,13 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'repo_id',
             'branch_tag',
             'last_commit',
+            'last_commit_message',
             'last_monitor_time:datetime',
             'warned_commit',
             'warned_time:datetime',
-            'warned_interval',
-            'warned_end_time:datetime',
             'created_at',
             'updated_at',
+            'warned_interval',
+            'warned_end_time:datetime',
         ],
     ]) ?>
 
