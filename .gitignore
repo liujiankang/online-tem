@@ -1,4 +1,5 @@
 # yii project
+/common/data/*
 /backend/runtime/*
 /frontend/runtime/*
 /console/runtime/*
