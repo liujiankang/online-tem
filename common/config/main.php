@@ -21,6 +21,9 @@ return [
                 ],
             ],
         ],
+        'date'=>[
+            'class'=>common\components\DateComponent::className()
+        ]
     ],
 //    'modules' => [
 //        'eonline' => 'eonline\Module'

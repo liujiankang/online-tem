@@ -22,7 +22,7 @@ class TestController extends Controller
     {
         $params = Yii::$app->request->get();
         if (count($params) < 2) {
-            echo htmlentities('?table=xxx&isModule=0&end=front');
+            echo htmlentities('?table=xxx&isModule=0&end=frontend');
             exit;
         }
         $isModule = false;

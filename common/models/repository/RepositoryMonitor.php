@@ -65,6 +65,6 @@ class RepositoryMonitor extends \common\models\BaseModel
 
     public function getRepository()
     {
-        return $this->hasOne(RepositoryBasic::className(), ['id' => 'repo_id']);
+        return RepositoryBasic::findOne($this->repo_id);
     }
 }
