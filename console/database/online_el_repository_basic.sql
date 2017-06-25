@@ -33,6 +33,8 @@ CREATE TABLE `el_repository_basic` (
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
   `local_path` varchar(255) DEFAULT NULL,
+  `id_rsa` text,
+  `id_rsa_pub` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -44,7 +46,7 @@ CREATE TABLE `el_repository_basic` (
 
 LOCK TABLES `el_repository_basic` WRITE;
 /*!40000 ALTER TABLE `el_repository_basic` DISABLE KEYS */;
-INSERT INTO `el_repository_basic` VALUES (1,'online','https://github.com/liujiankang/online-tem.git',2,'1','liujiankang1','LJK@bj565',1497166207,1497194148,NULL);
+INSERT INTO `el_repository_basic` VALUES (1,'online','https://github.com/liujiankang/online-tem.git',2,'1','liujiankang1','LJK@bj565',1497166207,1498381667,'@common/data/2ef730d9be7e311a9696f8b40cdcdd09',NULL,NULL);
 /*!40000 ALTER TABLE `el_repository_basic` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-17 17:00:48
+-- Dump completed on 2017-06-25 23:41:33

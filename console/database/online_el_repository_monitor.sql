@@ -27,11 +27,14 @@ CREATE TABLE `el_repository_monitor` (
   `repo_id` int(11) NOT NULL,
   `branch_tag` varchar(45) NOT NULL,
   `last_commit` varchar(45) DEFAULT NULL,
-  `last_commit_time` int(11) DEFAULT NULL,
+  `last_commit_message` varchar(45) DEFAULT NULL,
+  `last_monitor_time` int(11) DEFAULT NULL,
   `warned_commit` varchar(45) DEFAULT NULL,
   `warned_time` int(11) DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
+  `warned_interval` int(11) DEFAULT '6000',
+  `warned_end_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -42,7 +45,7 @@ CREATE TABLE `el_repository_monitor` (
 
 LOCK TABLES `el_repository_monitor` WRITE;
 /*!40000 ALTER TABLE `el_repository_monitor` DISABLE KEYS */;
-INSERT INTO `el_repository_monitor` VALUES (1,1,'origin/master','',NULL,'',NULL,1497174782,1497174782);
+INSERT INTO `el_repository_monitor` VALUES (1,1,'origin/master','9a5e84ac17be805695a472eb596ad87a93f171fa','忽略仓库文件修改1',1498401511,'9a5e84ac17be805695a472eb596ad87a93f171fa',1498399383,1497174782,1498401512,6000,NULL);
 /*!40000 ALTER TABLE `el_repository_monitor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-17 17:00:48
+-- Dump completed on 2017-06-25 23:41:33
