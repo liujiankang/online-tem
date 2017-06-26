@@ -10,6 +10,7 @@ namespace common\components;
 
 
 use yii\base\Component;
+use Yii;
 
 class DateComponent extends Component
 {

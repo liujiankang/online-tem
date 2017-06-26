@@ -9,9 +9,14 @@
 namespace frontend\controllers;
 
 
+use common\helper\RequestHelper;
+use common\models\repository\RepositoryBasic;
 use common\models\repository\RepositoryMonitor;
+use common\models\task\TaskBasic;
+use common\models\task\TaskDetail;
 use common\services\RepositoryBasicService;
 use Yii;
+
 class MonitorController extends BaseController
 {
 
@@ -81,14 +86,15 @@ class MonitorController extends BaseController
     public function actionDiff()
     {
         $now = \Yii::$app->date->getNowTime();
-        $RepositoryMonitors = RepositoryMonitor::find()->select('id')->column();
+        $taskId = RequestHelper::get('taskId', 0);
+        $task = TaskBasic::findOne($taskId);
+        $taskDetails = TaskDetail::findAll(['task_id' => $task->id]);
 
-        foreach ($RepositoryMonitors as $MonitorId) {
-            $monitorRepository = RepositoryMonitor::findOne($MonitorId);
-            $repositoryBasic = $monitorRepository->getRepository();
+        foreach ($taskDetails as $oneTask) {
+            $repositoryBasic = RepositoryBasic::findOne($oneTask->repo_id);
             $repositoryBasicService = (new RepositoryBasicService())->init($repositoryBasic);
-            $repositoryBasicService->comp(1,2);
+            $diffFile = $repositoryBasicService->getDiffFilesOfCommitByCmd($oneTask->base_commit_hash, $oneTask->task_branch);
+            var_dump($diffFile);
         }
-
     }
 }
