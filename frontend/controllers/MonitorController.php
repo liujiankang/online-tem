@@ -11,7 +11,7 @@ namespace frontend\controllers;
 
 use common\models\repository\RepositoryMonitor;
 use common\services\RepositoryBasicService;
-
+use Yii;
 class MonitorController extends BaseController
 {
 
@@ -80,7 +80,7 @@ class MonitorController extends BaseController
 
     public function actionDiff()
     {
-        $now = time();
+        $now = \Yii::$app->date->getNowTime();
         $RepositoryMonitors = RepositoryMonitor::find()->select('id')->column();
 
         foreach ($RepositoryMonitors as $MonitorId) {
