@@ -5,7 +5,9 @@
 /console/runtime/*
 /frontend/web/assets/*
 /backend/web/assets/*
-
+/run/repo/*
+/run/patch/*
+/run/auth/*
 # phpstorm project files
 .idea
 

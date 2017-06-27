@@ -1,7 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use common\helper\FileHelper;
+use common\models\task\TaskBasic;
+use common\models\task\TaskBasicSearch;
 use common\services\RepositoryBasicService;
+use common\services\TaskService;
 use GitElephant\Repository;
 use Yii;
 use yii\web\Controller;
@@ -54,15 +58,10 @@ class TestController extends Controller
 
     public function actionTest()
     {
-        $repo=Repository::open('/webCode/online/environments');
-        if($repo){
-            var_dump($repo);
-        }
-
-        $repo=Repository::open('/webCode/online');
-        if($repo){
-            var_dump($repo);
-        }
+        $task = TaskBasic::findOne(1);
+        $taskServer = (new TaskService())->init($task);
+        $result = $taskServer->patch();
+        var_dump($result);
     }
 
     public function actionTest2()

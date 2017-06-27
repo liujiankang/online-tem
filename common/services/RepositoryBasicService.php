@@ -30,9 +30,9 @@ class RepositoryBasicService extends BaseService
 
     public function setAuth(RepositoryBasic $repositoryBasic)
     {
-        $name = md5($repositoryBasic->id . $repositoryBasic->name);
-        $path = "/home/www-data/.ssh/$name";
-        $pathPub = "/home/www-data/.ssh/$name.pub";
+        //$name = md5($repositoryBasic->id . $repositoryBasic->name);
+        $path = "/home/www-data/.ssh/id_rsa";
+        $pathPub = "/home/www-data/.ssh/id_rsa.pub";
         if ($repositoryBasic->auth_type == RepositoryBasic::AUTH_TYPE_RSAKEY) {
 
             //私钥
@@ -47,44 +47,33 @@ class RepositoryBasicService extends BaseService
             fwrite($fHand, $repositoryBasic->id_rsa);
             fclose($fHand);
             chmod($pathPub, '600');
-
         }
     }
 
     public function unsetAuth()
     {
-
+        $path = "/home/www-data/.ssh/id_rsa";
+        $pathPub = "/home/www-data/.ssh/id_rsa.pub";
+        @unlink($path);
+        @unlink($pathPub);
     }
 
     public function init(RepositoryBasic $repositoryBasic)
     {
-        try {
-            $this->repositoryBasic = $repositoryBasic;
-            $this->setAuth($repositoryBasic);
-            $repo_dir = $this->getOrCreateRepoDir();
-            try {
-                $repositoryInstance = Repository::open($repo_dir);
-            } catch (\Exception $e) {
-                throw $e;
-            }
 
-            $repositoryInstance->isBare();
-            if (is_dir($repo_dir)) {
-                FileHelper::removeDirectory($repo_dir);
-            }
-            FileHelper::createDirectory($repo_dir);
-            $repositoryInstance = Repository::createFromRemote($repositoryBasic->url, $repo_dir);
-            if ($repositoryInstance instanceof Repository) {
-                $repositoryBasic->local_path = $repo_dir_alias;
-                $repositoryBasic->save();
-                Yii::info(['save repo directory', $repositoryBasic->id, $repositoryBasic->local_path], __CLASS__);
+        $this->repositoryBasic = $repositoryBasic;
+        $this->setAuth($repositoryBasic);
+        $repo_dir = $this->getOrCreateRepoDir();
+        try {
+            $repositoryInstance = Repository::open($repo_dir);
+            $branch = $repositoryInstance->getBranches(true, true);
+            if (!is_array($branch) || count($branch) < 1) {
+                $repositoryInstance = $this->createRepo();
             }
         } catch (\Exception $e) {
-            throw $e;
+            $repositoryInstance = $this->createRepo();
         }
-
         $this->repositoryInstance = $repositoryInstance;
-        $this->refresh();
         return $this;
 
 //        $commit = $repositoryInstance->getCommit();
@@ -203,6 +192,24 @@ class RepositoryBasicService extends BaseService
             FileHelper::createDirectory($repo_dir);
         }
         return $repo_dir;
+    }
+
+    public function createRepo()
+    {
+        $repo_dir = $this->getOrCreateRepoDir();
+        $repositoryInstance = Repository::createFromRemote($this->repositoryBasic->url, $repo_dir);
+        if ($repositoryInstance instanceof Repository) {
+            $this->repositoryInstance = $repositoryInstance;
+            $this->repositoryBasic->local_path = $repo_dir;
+            if ($this->repositoryBasic->save()) {
+                Yii::error($this->repositoryBasic->getErrors(), __CLASS__);
+            } else {
+                Yii::info(['save repo directory', $this->repositoryBasic->id, $this->repositoryBasic->local_path], __CLASS__);
+            }
+            return $repositoryInstance;
+        } else {
+            throw new \Exception('创建代码库失败');
+        }
     }
 
 }

@@ -9,13 +9,14 @@
 namespace common\services;
 
 
+use common\helper\FileHelper;
 use common\models\host\HostBasic;
 use common\models\repository\RepositoryBasic;
 use common\models\task\TaskBasic;
 use common\models\task\TaskDetail;
 use Yii;
 
-class HostBasicService extends BaseService
+class TaskService extends BaseService
 {
 
     public $task;
@@ -25,17 +26,33 @@ class HostBasicService extends BaseService
     public function init(TaskBasic $task)
     {
         $this->taskDetails = TaskDetail::findAll(['task_id' => $task->id]);
+        return $this;
     }
 
     public function patch()
     {
+        $patchResult = [];
         foreach ($this->taskDetails as $oneTask) {
             $repositoryBasic = RepositoryBasic::findOne($oneTask->repo_id);
             $repositoryBasicService = (new RepositoryBasicService())->init($repositoryBasic);
             $diffFile = $repositoryBasicService->getDiffFilesOfCommitByCmd($oneTask->base_commit_hash, $oneTask->task_branch);
+            Yii::trace(['diff file name is', $diffFile], __CLASS__);
+            $patchPath = $this->getPatchDir($oneTask);
+            foreach ($diffFile as $oneFile) {
+                $sourceFile = $repositoryBasic->local_path . DIRECTORY_SEPARATOR . $oneFile;
+                $distFile = $patchPath . DIRECTORY_SEPARATOR . $oneFile;
 
-            var_dump($diffFile);
+                $distFileDir = dirname($distFile);
+                if (!is_dir($distFileDir)) {
+                    FileHelper::createDirectory($distFileDir);
+                }
+                $result = copy($sourceFile, $distFile);
+                $copyData = ['$sourceFile' => $sourceFile, '$distFile' => $distFile, '$result' => $result];
+                array_push($patchResult, $copyData);
+            }
         }
+        Yii::info(['patch result', $patchResult], __CLASS__);
+        return true;
 
     }
 
@@ -46,11 +63,24 @@ class HostBasicService extends BaseService
 
     public function getSourcePath(TaskDetail $task)
     {
-        $path = Yii::getAlias("@run/patch/source_task{$task->id}_repo{$task->repo_id}");
-        $path .= md5($task->base_branch . $task->base_commit_hash . $task->task_branch . $task->task_commit_hash);
+
     }
 
     public function getTargetPath(TaskDetail $task)
     {
+    }
+
+
+    public function getPatchDir(TaskDetail $task)
+    {
+        $date = date('Y-m-d');
+        $path = Yii::getAlias("@run/patch/{$date}_repo{$task->repo_id}_task{$task->id}_source_");
+        $path .= substr(md5($task->base_branch . $task->base_commit_hash . $task->task_branch . $task->task_commit_hash), 1, 5);
+        return $path;
+    }
+
+    public function getBackupDir()
+    {
+
     }
 }
