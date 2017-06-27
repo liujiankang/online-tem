@@ -23,6 +23,7 @@ use Yii;
 class RepositoryBasicService extends BaseService
 {
     public $authFile;
+    /* @var $repositoryBasic RepositoryBasic */
     public $repositoryBasic;
     /* @var $repositoryInstance Repository */
     public $repositoryInstance;
@@ -58,25 +59,25 @@ class RepositoryBasicService extends BaseService
     public function init(RepositoryBasic $repositoryBasic)
     {
         try {
+            $this->repositoryBasic = $repositoryBasic;
             $this->setAuth($repositoryBasic);
-            if (!empty($repositoryBasic->local_path)) {
-                $repo_dir = \Yii::getAlias($repositoryBasic->local_path);
+            $repo_dir = $this->getOrCreateRepoDir();
+            try {
                 $repositoryInstance = Repository::open($repo_dir);
-            } else {
-                $repo_dir_name = md5($repositoryBasic->id . $repositoryBasic->name . $repositoryBasic->url);
-                $repo_dir_alias = '@common' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . $repo_dir_name;
-                $repo_dir = \Yii::getAlias($repo_dir_alias);
-                Yii::trace($repo_dir);
-                if (is_dir($repo_dir)) {
-                    FileHelper::removeDirectory($repo_dir);
-                }
-                FileHelper::createDirectory($repo_dir);
-                $repositoryInstance = Repository::createFromRemote($repositoryBasic->url, $repo_dir);
-                if ($repositoryInstance instanceof Repository) {
-                    $repositoryBasic->local_path = $repo_dir_alias;
-                    $repositoryBasic->save();
-                    Yii::info(['save repo directory', $repositoryBasic->id, $repositoryBasic->local_path], __CLASS__);
-                }
+            } catch (\Exception $e) {
+                throw $e;
+            }
+
+            $repositoryInstance->isBare();
+            if (is_dir($repo_dir)) {
+                FileHelper::removeDirectory($repo_dir);
+            }
+            FileHelper::createDirectory($repo_dir);
+            $repositoryInstance = Repository::createFromRemote($repositoryBasic->url, $repo_dir);
+            if ($repositoryInstance instanceof Repository) {
+                $repositoryBasic->local_path = $repo_dir_alias;
+                $repositoryBasic->save();
+                Yii::info(['save repo directory', $repositoryBasic->id, $repositoryBasic->local_path], __CLASS__);
             }
         } catch (\Exception $e) {
             throw $e;
@@ -185,4 +186,23 @@ class RepositoryBasicService extends BaseService
         }
         return $returnArray;
     }
+
+    public function getOrCreateRepoDir()
+    {
+        $repositoryBasic = $this->repositoryBasic;
+        if (!empty($repositoryBasic->local_path)) {
+            $repo_dir_alias = $repositoryBasic->local_path;
+        } else {
+            $repo_dir_name = substr(md5($repositoryBasic->id . $repositoryBasic->name . $repositoryBasic->url), 1, 5);
+            $repo_dir_alias = '@run' . DIRECTORY_SEPARATOR . 'repo' . DIRECTORY_SEPARATOR . "repo{$repositoryBasic->id}_{$repo_dir_name}";
+        }
+
+        $repo_dir = \Yii::getAlias($repo_dir_alias);
+        Yii::trace($repo_dir);
+        if (!is_dir($repo_dir)) {
+            FileHelper::createDirectory($repo_dir);
+        }
+        return $repo_dir;
+    }
+
 }
