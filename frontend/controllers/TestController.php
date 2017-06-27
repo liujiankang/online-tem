@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\services\RepositoryBasicService;
+use GitElephant\Repository;
 use Yii;
 use yii\web\Controller;
 
@@ -53,8 +54,15 @@ class TestController extends Controller
 
     public function actionTest()
     {
-        $git = (new RepositoryBasicService())->getRepositoryInstance(1);
-        var_dump($git);
+        $repo=Repository::open('/webCode/online/environments');
+        if($repo){
+            var_dump($repo);
+        }
+
+        $repo=Repository::open('/webCode/online');
+        if($repo){
+            var_dump($repo);
+        }
     }
 
     public function actionTest2()
