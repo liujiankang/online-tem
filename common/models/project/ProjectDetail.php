@@ -15,6 +15,7 @@ use Yii;
  * @property string $log_back
  * @property int $created_at
  * @property int $updated_at
+ * @property int $is_master master/slave
  */
 class ProjectDetail extends \common\models\BaseModel
 {
@@ -33,7 +34,7 @@ class ProjectDetail extends \common\models\BaseModel
     {
         return [
             [['host_id', 'web_root'], 'required'],
-            [['host_id', 'created_at', 'updated_at'], 'integer'],
+            [['host_id', 'created_at', 'updated_at', 'is_master'], 'integer'],
             [['web_root', 'log_root', 'web_back', 'log_back'], 'string', 'max' => 45],
         ];
     }
@@ -52,6 +53,7 @@ class ProjectDetail extends \common\models\BaseModel
             'log_back' => 'Log Back',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'is_master' => 'Is Master',
         ];
     }
 }

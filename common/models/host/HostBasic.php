@@ -20,6 +20,10 @@ use Yii;
  */
 class HostBasic extends \common\models\BaseModel
 {
+
+    const AUTH_TYPE_PASSWORD = 1;
+    const AUTH_TYPE_RSAKEY = 2;
+
     /**
      * @inheritdoc
      */

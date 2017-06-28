@@ -9,8 +9,12 @@
 namespace common\services;
 
 
+use common\models\host\HostBasic;
+use common\models\project\ProjectDetail;
 use common\models\repository\RepositoryBasic;
+use common\models\task\TaskDetail;
 use GitElephant\Repository;
+use Ssh\SshConfigFileConfiguration;
 use yii\helpers\FileHelper;
 use Yii;
 
@@ -25,24 +29,34 @@ class ProjectRepositoryService extends BaseService
     public $repositoryBasic;
     /* @var $repositoryInstance Repository */
     public $repositoryInstance;
+    /* @var $taskDetail TaskDetail */
+    public $taskDetail;
 
-    public function setAuth(RepositoryBasic $repositoryBasic)
+    /* @var $projectMainHost ProjectDetail */
+    public $projectMainHost;
+
+    /* @var $hostMain HostBasic */
+    public $hostMain;
+
+    public $isHaveMasterHost = false;
+
+    public function setAuth()
     {
         //$name = md5($repositoryBasic->id . $repositoryBasic->name);
         $path = "/home/www-data/.ssh/id_rsa";
         $pathPub = "/home/www-data/.ssh/id_rsa.pub";
-        if ($repositoryBasic->auth_type == RepositoryBasic::AUTH_TYPE_RSAKEY) {
+        if ($this->hostMain->auth_type == HostBasic::AUTH_TYPE_RSAKEY) {
 
             //私钥
             $fHand = fopen($path, 'w');
-            fwrite($fHand, $repositoryBasic->id_rsa);
+            fwrite($fHand, $this->hostMain->id_rsa);
             fclose($fHand);
             chmod($path, '600');
 
             //公钥
 
             $fHand = fopen($pathPub, 'w');
-            fwrite($fHand, $repositoryBasic->id_rsa);
+            fwrite($fHand, $this->hostMain->id_rsa_pub);
             fclose($fHand);
             chmod($pathPub, '600');
         }
@@ -56,27 +70,33 @@ class ProjectRepositoryService extends BaseService
         @unlink($pathPub);
     }
 
-    public function init(RepositoryBasic $repositoryBasic)
+    public function init(TaskDetail $oneTask)
     {
-
-        $this->repositoryBasic = $repositoryBasic;
-        $this->setAuth($repositoryBasic);
-        $repo_dir = $this->getOrCreateRepoDir();
-        try {
-            $repositoryInstance = Repository::open($repo_dir);
-            $branch = $repositoryInstance->getBranches(true, true);
-            if (!is_array($branch) || count($branch) < 1) {
-                $repositoryInstance = $this->createRepo();
-            }
-        } catch (\Exception $e) {
-            $repositoryInstance = $this->createRepo();
+        $this->taskDetail = $oneTask;
+        $hostMaster = ProjectDetail::findOne(['is_master' => true, 'project_id' => $oneTask->project_id]);
+        if ($hostMaster) {
+            $this->isHaveMasterHost = true;
+        } else {
+            $this->projectMasterHost = false;
+            $hostMaster = ProjectDetail::findOne(['project_id' => $oneTask->project_id]);
         }
-        $this->repositoryInstance = $repositoryInstance;
+
+        if ($hostMaster instanceof ProjectDetail) {
+            $this->projectMainHost = $hostMaster;
+            $this->hostMain = HostBasic::findOne($hostMaster->host_id);
+        }
+
         return $this;
     }
+
     /*从服务器上下载文件*/
     public function downFile($source, $dist)
     {
+        if ($this->projectMainHost instanceof ProjectDetail && $this->hostMain instanceof HostBasic) {
+            $this->setAuth();
+        } else {
+            throw new \Exception('没有可供链接的服务器');
+        }
         return true;
     }
 

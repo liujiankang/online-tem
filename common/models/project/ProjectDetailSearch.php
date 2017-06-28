@@ -18,7 +18,7 @@ class ProjectDetailSearch extends ProjectDetail
     public function rules()
     {
         return [
-            [['project_id', 'host_id', 'created_at', 'updated_at'], 'integer'],
+            [['project_id', 'host_id', 'created_at', 'updated_at', 'is_master'], 'integer'],
             [['web_root', 'log_root', 'web_back', 'log_back'], 'safe'],
         ];
     }
@@ -63,6 +63,7 @@ class ProjectDetailSearch extends ProjectDetail
             'host_id' => $this->host_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'is_master' => $this->is_master,
         ]);
 
         $query->andFilterWhere(['like', 'web_root', $this->web_root])
