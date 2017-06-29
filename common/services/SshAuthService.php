@@ -20,31 +20,88 @@ class SshAuthService extends BaseService
 {
 
     public $configDir = '/home/www-data/.ssh';
-    public $model = 'Host $host_alias
+    public $configTemplet = 'Host $host_alias
     HostName $host_name
     User $user
     Port $port
 	PubkeyAuthentication yes
     IdentityFile $id_rsa';
+    public $temp_rsa_file = [];
 
     public function init()
     {
         $hostAll = HostBasic::findAll(['auth_type' => HostBasic::AUTH_TYPE_RSAKEY]);
         if (is_array($hostAll)) {
+            $this->backupConfig();
+            $config = '';
             foreach ($hostAll as $one) {
-
+                $config .= $this->getConfig($one);
             }
+
+            $fileHand = fopen($this->getConfigFileDir(), 'w+');
+            fwrite($fileHand, $config);
+            fclose($fileHand);
         }
     }
 
-    public function setConfig(HostBasic $host)
+    public function getConfig(HostBasic $host)
     {
-        $host = $host->host_name;
+        if ($host->auth_type == HostBasic::AUTH_TYPE_PASSWORD) {
+            return '';
+        }
+        $host_alias = $host->host_alias;
+        if (strpos($host->host_ip, ':')) {
+            $hostPort = explode(':', $host->host_ip);
+            $host_name = $hostPort[0];
+            $port = $hostPort[1];
+        } else {
+            $host_name = $host->host_ip;
+            $port = '22';
+        }
+        $user = $host->user_name;
+        $id_rsa = 'id_rsa_' . $host->id;
+        $fileName = $this->configDir . DIRECTORY_SEPARATOR . $id_rsa;
+        array_push($this->temp_rsa_file, $fileName);
 
-        if(strpos($host->h))
-        $host_name = $host->host_ip;
-        $host = $host->host_name;
+        $fileHand = fopen($fileName, 'w+');
+        fwrite($fileHand, $host->rsa_key_pri);
+        fclose($fileHand);
+        chmod($fileName, 0600);
 
+        $config = $this->configTemplet;
+        $config = str_replace('$host_alias', $host_alias, $config);
+        $config = str_replace('$host_name', $host_name, $config);
+        $config = str_replace('$user', $user, $config);
+        $config = str_replace('$port', $port, $config);
+        $config = str_replace('$id_rsa', $id_rsa, $config);
+        return $config;
+    }
+
+    public function backupConfig()
+    {
+        $ora_name = $this->getConfigFileDir();
+        $back_name = $ora_name . '.back';
+        shell_exec("mv $back_name /dev/null");
+        shell_exec("mv $ora_name $back_name");
+        return true;
+    }
+
+    public function restoreConfig()
+    {
+        $ora_name = $this->getConfigFileDir();
+        $back_name = $ora_name . '.back';
+        shell_exec("mv $ora_name /dev/null");
+        shell_exec("mv $back_name $ora_name");
+
+        foreach ($this->temp_rsa_file as $one) {
+            shell_exec("mv $one /dev/null");
+        }
+        return true;
+    }
+
+    public function getConfigFileDir()
+    {
+        return $this->configDir . DIRECTORY_SEPARATOR . 'config';
     }
 
 }
