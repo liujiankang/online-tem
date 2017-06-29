@@ -7,6 +7,7 @@ use common\models\task\TaskBasicSearch;
 use common\services\RepositoryBasicService;
 use common\services\TaskService;
 use GitElephant\Repository;
+use Ssh\SshConfigFileConfiguration;
 use Yii;
 use yii\web\Controller;
 

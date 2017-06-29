@@ -14,6 +14,7 @@ use common\models\project\ProjectDetail;
 use common\models\repository\RepositoryBasic;
 use common\models\task\TaskDetail;
 use GitElephant\Repository;
+use Ssh\Session;
 use Ssh\SshConfigFileConfiguration;
 use yii\helpers\FileHelper;
 use Yii;
@@ -38,6 +39,8 @@ class ProjectRepositoryService extends BaseService
     /* @var $hostMain HostBasic */
     public $hostMain;
 
+    /*@var $Session Session*/
+    private $connection;
     public $isHaveMasterHost = false;
 
     public function setAuth()
@@ -89,15 +92,20 @@ class ProjectRepositoryService extends BaseService
         return $this;
     }
 
-    /*从服务器上下载文件*/
+    /**
+     * 从服务器上下载文件
+     * @var
+     */
     public function downFile($source, $dist)
     {
         if ($this->projectMainHost instanceof ProjectDetail && $this->hostMain instanceof HostBasic) {
-            $this->setAuth();
+            $connection = $this->getConnection();
+            $scp = $connection->getSftp();
+            return $scp->receive($dist,$source);
+
         } else {
             throw new \Exception('没有可供链接的服务器');
         }
-        return true;
     }
 
     /*向服务器上传文件*/
@@ -106,4 +114,15 @@ class ProjectRepositoryService extends BaseService
         return true;
     }
 
+    /**
+     * @return $connection
+     */
+    public function getConnection()
+    {
+        if (!$this->connection) {
+
+            $this->connection = new Session($config, $authen);
+        }
+        return $this->connection;
+    }
 }

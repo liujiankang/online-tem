@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "el_host_basic".
  *
  * @property int $id
+ * @property string $host_alias
  * @property string $host_name
  * @property string $host_ip
  * @property int $auth_type
@@ -40,7 +41,7 @@ class HostBasic extends \common\models\BaseModel
         return [
             [['host_ip'], 'required'],
             [['auth_type', 'created_at', 'updated_at'], 'integer'],
-            [['host_name', 'host_ip'], 'string', 'max' => 50],
+            [['host_alias', 'host_name', 'host_ip'], 'string', 'max' => 50],
             [['user_pass'], 'string', 'max' => 100],
             [['user_name'], 'string', 'max' => 45],
             [['rsa_key_pri', 'rsa_key_pub'], 'string', 'max' => 500],
@@ -54,6 +55,7 @@ class HostBasic extends \common\models\BaseModel
     {
         return [
             'id' => 'ID',
+            'host_alias' => 'Host Alias',
             'host_name' => 'Host Name',
             'host_ip' => 'Host Ip',
             'auth_type' => 'Auth Type',

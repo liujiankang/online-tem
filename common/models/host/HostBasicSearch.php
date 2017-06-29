@@ -19,7 +19,7 @@ class HostBasicSearch extends HostBasic
     {
         return [
             [['id', 'auth_type', 'created_at', 'updated_at'], 'integer'],
-            [['host_name', 'host_ip', 'user_pass', 'user_name', 'rsa_key_pri', 'rsa_key_pub'], 'safe'],
+            [['host_alias', 'host_name', 'host_ip', 'user_pass', 'user_name', 'rsa_key_pri', 'rsa_key_pub'], 'safe'],
         ];
     }
 
@@ -65,7 +65,8 @@ class HostBasicSearch extends HostBasic
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'host_name', $this->host_name])
+        $query->andFilterWhere(['like', 'host_alias', $this->host_alias])
+            ->andFilterWhere(['like', 'host_name', $this->host_name])
             ->andFilterWhere(['like', 'host_ip', $this->host_ip])
             ->andFilterWhere(['like', 'user_pass', $this->user_pass])
             ->andFilterWhere(['like', 'user_name', $this->user_name])

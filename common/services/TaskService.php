@@ -73,7 +73,7 @@ class TaskService extends BaseService
                 //$sourceFile = $repositoryBasic->local_path . DIRECTORY_SEPARATOR . $oneFile;
                 $sourceFile = $oneFile;
                 $distFile = $backupPath . DIRECTORY_SEPARATOR . $oneFile;
-                $isDowned=$repositoryBasicService->downFile($sourceFile,$distFile);
+                $isDowned=$projectRepositoryService->downFile($sourceFile,$distFile);
                 if ($isDowned && is_file($sourceFile)) {
                     $distFileDir = dirname($distFile);
                     if (!is_dir($distFileDir)) {
