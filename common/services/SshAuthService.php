@@ -24,8 +24,14 @@ class SshAuthService extends BaseService
     HostName $host_name
     User $user
     Port $port
-	PubkeyAuthentication yes
-    IdentityFile $id_rsa';
+    PubkeyAuthentication yes
+    IdentityFile $id_rsa
+    
+    
+';
+    public $defaultConfig='
+    StrictHostKeyChecking=no
+';
     public $temp_rsa_file = [];
 
     public function init()
@@ -39,11 +45,39 @@ class SshAuthService extends BaseService
             }
 
             $fileHand = fopen($this->getConfigFileDir(), 'w+');
+            $config.=$this->defaultConfig;
             fwrite($fileHand, $config);
             fclose($fileHand);
         }
+        return true;
     }
 
+    public function initByHostModel(HostBasic $host)
+    {
+        if ($host->auth_type == HostBasic::AUTH_TYPE_PASSWORD) {
+            return false;
+        }
+        $rsa_file = $this->configDir . DIRECTORY_SEPARATOR . 'id_rsa';
+        $rsa_pub_file = $this->configDir . DIRECTORY_SEPARATOR . 'id_rsa.pub';
+
+        //private
+        $fileHand = fopen($rsa_file, 'w+');
+        fwrite($fileHand, $host->rsa_key_pri);
+        fclose($fileHand);
+        chmod($rsa_file, 0600);
+
+        //public
+        $fileHand = fopen($rsa_pub_file, 'w+');
+        fwrite($fileHand, $host->rsa_key_pub);
+        fclose($fileHand);
+        chmod($rsa_pub_file, 0600);
+
+        return true;
+    }
+
+    /*
+     * @return String $config
+     * */
     public function getConfig(HostBasic $host)
     {
         if ($host->auth_type == HostBasic::AUTH_TYPE_PASSWORD) {
@@ -90,11 +124,14 @@ class SshAuthService extends BaseService
     {
         $ora_name = $this->getConfigFileDir();
         $back_name = $ora_name . '.back';
-        shell_exec("mv $ora_name /dev/null");
-        shell_exec("mv $back_name $ora_name");
 
-        foreach ($this->temp_rsa_file as $one) {
-            shell_exec("mv $one /dev/null");
+        if (is_file($back_name)) {
+            shell_exec("mv $ora_name /dev/null");
+            shell_exec("mv $back_name $ora_name");
+
+            foreach ($this->temp_rsa_file as $one) {
+                shell_exec("mv $one /dev/null");
+            }
         }
         return true;
     }

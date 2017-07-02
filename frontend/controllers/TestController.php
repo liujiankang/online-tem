@@ -2,9 +2,13 @@
 namespace frontend\controllers;
 
 use common\helper\FileHelper;
+use common\models\host\HostBasic;
 use common\models\task\TaskBasic;
 use common\models\task\TaskBasicSearch;
+use common\models\task\TaskDetail;
+use common\services\ProjectRepositoryService;
 use common\services\RepositoryBasicService;
+use common\services\SshAuthService;
 use common\services\TaskService;
 use GitElephant\Repository;
 use Ssh\SshConfigFileConfiguration;
@@ -17,8 +21,6 @@ use yii\web\Controller;
  */
 class TestController extends Controller
 {
-
-
     /**
      * Displays homepage.
      *
@@ -59,10 +61,11 @@ class TestController extends Controller
 
     public function actionTest()
     {
-        $task = TaskBasic::findOne(1);
-        $taskServer = (new TaskService())->init($task);
-        $result = $taskServer->patch();
-        var_dump($result);
+        $server = new SshAuthService();
+        $server->init();
+        //$server->restoreConfig();
+        //$server->initByHostModel(HostBasic::findOne(2));
+        var_dump($server);
     }
 
     public function actionTest2()
@@ -87,6 +90,18 @@ class TestController extends Controller
     {
         $cmd = "cd $dir; git checkout master;git pull origin master; git log | head -n 1";
         var_dump($cmd);
+    }
+
+    public function actionDown()
+    {
+        $dist = '/index.html';
+        $local = '/webCode/online/run/test/123.php';
+        $server = new ProjectRepositoryService();
+        $server->init(TaskDetail::findOne(1));
+//        $result=$server->downFile($dist,$local);
+        $result=$server->downFileByScp($dist,$local);
+        var_dump($result);
+        var_dump($server);
     }
 
 }

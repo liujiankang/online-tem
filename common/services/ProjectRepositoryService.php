@@ -14,6 +14,9 @@ use common\models\project\ProjectDetail;
 use common\models\repository\RepositoryBasic;
 use common\models\task\TaskDetail;
 use GitElephant\Repository;
+use Ssh\Authentication\Password as SshPassword;
+use Ssh\Authentication\PublicKeyFile;
+use Ssh\Configuration;
 use Ssh\Session;
 use Ssh\SshConfigFileConfiguration;
 use yii\helpers\FileHelper;
@@ -93,16 +96,39 @@ class ProjectRepositoryService extends BaseService
     }
 
     /**
+     *
+     * $distant 如果是相对路径则从，映射的路径开始;如果是绝对路径则是，web根目录
+     * $local 如果是相对路径则从，映射的web路径开始;如果是绝对路径则是绝对路径
      * 从服务器上下载文件
      * @var
      */
-    public function downFile($source, $dist)
+    public function downFile($distant, $local)
     {
         if ($this->projectMainHost instanceof ProjectDetail && $this->hostMain instanceof HostBasic) {
             $connection = $this->getConnection();
+            //var_dump($connection);die;
             $scp = $connection->getSftp();
-            return $scp->receive($dist,$source);
+            $realDistant = $this->projectMainHost->web_root . $distant;
+            $realLocal = $local;
+            //var_dump($scp, $realDistant, $realLocal);die;
+            return $scp->receive($realDistant, $realLocal);
+        } else {
+            throw new \Exception('没有可供链接的服务器');
+        }
+    }
 
+    public function downFileByScp($distant,$local){
+        if ($this->projectMainHost instanceof ProjectDetail && $this->hostMain instanceof HostBasic) {
+            $realDistant = $this->projectMainHost->web_root . $distant;
+            $realLocal = $local;
+            $username=$this->hostMain->user_name;
+            $port='25519';
+            $host=$this->hostMain->host_ip;
+            $id_rsa='/home/www-data/.ssh/id_rsa';
+            $cmd ="scp -P{$port} -i $id_rsa $username@$host:$realDistant $realLocal";
+            var_dump($cmd);
+            var_dump(shell_exec('who'));
+            return shell_exec($cmd);
         } else {
             throw new \Exception('没有可供链接的服务器');
         }
@@ -115,13 +141,25 @@ class ProjectRepositoryService extends BaseService
     }
 
     /**
-     * @return $connection
+     * @return Session $connection
      */
     public function getConnection()
     {
         if (!$this->connection) {
+            if ($this->hostMain->auth_type == HostBasic::AUTH_TYPE_RSAKEY) {
+                $sshAuthServer = (new SshAuthService());
+                $sshAuthServer->initByHostModel($this->hostMain);
+                $configFile = $sshAuthServer->getConfigFileDir();
+                //$configuration = new SshConfigFileConfiguration($configFile, $this->hostMain->host_alias);
+                //$authentication = $configuration->getAuthentication();
 
-            $this->connection = new Session($config, $authen);
+                $configuration = new Configuration($this->hostMain->host_alias,25519);
+                $authentication = new PublicKeyFile($this->hostMain->user_name, $sshAuthServer->configDir . '/id_rsa.pub', $sshAuthServer->configDir . '/id_rsa');
+            } else {
+                $configuration = new Configuration($this->hostMain->host_alias);
+                $authentication = new SshPassword($this->hostMain->user_name, $this->hostMain->user_pass);
+            }
+            $this->connection = new Session($configuration, $authentication);
         }
         return $this->connection;
     }
