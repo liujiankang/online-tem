@@ -18,7 +18,7 @@ class ProjectDetailSearch extends ProjectDetail
     public function rules()
     {
         return [
-            [['project_id', 'host_id', 'created_at', 'updated_at', 'is_master'], 'integer'],
+            [['id', 'project_id', 'host_id', 'created_at', 'updated_at', 'is_master'], 'integer'],
             [['web_root', 'log_root', 'web_back', 'log_back'], 'safe'],
         ];
     }
@@ -59,6 +59,7 @@ class ProjectDetailSearch extends ProjectDetail
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'id' => $this->id,
             'project_id' => $this->project_id,
             'host_id' => $this->host_id,
             'created_at' => $this->created_at,

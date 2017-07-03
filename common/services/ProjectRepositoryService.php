@@ -106,7 +106,10 @@ class ProjectRepositoryService extends BaseService
     {
         if ($this->projectMainHost instanceof ProjectDetail && $this->hostMain instanceof HostBasic) {
             $connection = $this->getConnection();
-            //var_dump($connection);die;
+            var_dump($connection);
+            var_dump($connection->getExec());
+            var_dump($connection->getExec()->run('ls -al'));
+            die;
             $scp = $connection->getSftp();
             $realDistant = $this->projectMainHost->web_root . $distant;
             $realLocal = $local;
@@ -122,12 +125,34 @@ class ProjectRepositoryService extends BaseService
             $realDistant = $this->projectMainHost->web_root . $distant;
             $realLocal = $local;
             $username=$this->hostMain->user_name;
-            $port='25519';
+            $port='22';
             $host=$this->hostMain->host_ip;
             $id_rsa='/home/www-data/.ssh/id_rsa';
-            $cmd ="scp -P{$port} -i $id_rsa $username@$host:$realDistant $realLocal";
+            $cmd ="/usr/bin/scp -o \"StrictHostKeyChecking no\" -P{$port} -i $id_rsa $username@$host:$realDistant $realLocal";
             var_dump($cmd);
-            var_dump(shell_exec('who'));
+            //exec($cmd,$result);var_dump($result);var_dump(shell_exec('uname')); die;
+//            var_dump(shell_exec('ls -al'));
+            var_dump(shell_exec($cmd));
+//            var_dump(shell_exec('ls -al /home/www-data/.ssh'));
+//            var_dump(shell_exec('/usr/bin/scp'));die;
+            return shell_exec($cmd);
+        } else {
+            throw new \Exception('没有可供链接的服务器');
+        }
+    }
+
+    public function downFileByScp1($distant,$local){
+        if ($this->projectMainHost instanceof ProjectDetail && $this->hostMain instanceof HostBasic) {
+            $realDistant = $this->projectMainHost->web_root . $distant;
+            $realLocal = $local;
+            $username=$this->hostMain->user_name;
+            $port='22';
+            $host=$this->hostMain->host_ip;
+            $id_rsa='/home/www-data/.ssh/id_rsa';
+            $cmd ="/usr/bin/scp -P{$port} -i $id_rsa $username@$host:$realDistant $realLocal";
+            $connection = ssh2_connect(HOST, 22);
+            ssh2_auth_password($connection, USER, PWD);
+            ssh2_scp_send($connection, $mp4, $targetJpg, 0777);
             return shell_exec($cmd);
         } else {
             throw new \Exception('没有可供链接的服务器');
@@ -150,11 +175,11 @@ class ProjectRepositoryService extends BaseService
                 $sshAuthServer = (new SshAuthService());
                 $sshAuthServer->initByHostModel($this->hostMain);
                 $configFile = $sshAuthServer->getConfigFileDir();
-                //$configuration = new SshConfigFileConfiguration($configFile, $this->hostMain->host_alias);
-                //$authentication = $configuration->getAuthentication();
+                $configuration = new SshConfigFileConfiguration($configFile, $this->hostMain->host_alias);
+                $authentication = $configuration->getAuthentication();
 
-                $configuration = new Configuration($this->hostMain->host_alias,25519);
-                $authentication = new PublicKeyFile($this->hostMain->user_name, $sshAuthServer->configDir . '/id_rsa.pub', $sshAuthServer->configDir . '/id_rsa');
+                //$configuration = new Configuration($this->hostMain->host_alias,25519);
+                //$authentication = new PublicKeyFile($this->hostMain->user_name, $sshAuthServer->configDir . '/id_rsa.pub', $sshAuthServer->configDir . '/id_rsa');
             } else {
                 $configuration = new Configuration($this->hostMain->host_alias);
                 $authentication = new SshPassword($this->hostMain->user_name, $this->hostMain->user_pass);

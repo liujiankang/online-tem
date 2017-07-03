@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\project\ProjectDetail */
 
-$this->title = 'Update Project Detail: ' . $model->project_id;
+$this->title = 'Update Project Detail: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Project Details', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->project_id, 'url' => ['view', 'id' => $model->project_id]];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="project-detail-update">

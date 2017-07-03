@@ -15,6 +15,8 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
+    <?= $form->field($model, 'id') ?>
+
     <?= $form->field($model, 'project_id') ?>
 
     <?= $form->field($model, 'host_id') ?>
@@ -23,7 +25,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'log_root') ?>
 
-    <?= $form->field($model, 'web_back') ?>
+    <?php // echo $form->field($model, 'web_back') ?>
 
     <?php // echo $form->field($model, 'log_back') ?>
 

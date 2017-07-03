@@ -7,6 +7,7 @@ use Yii;
 /**
  * This is the model class for table "el_project_detail".
  *
+ * @property int $id
  * @property int $project_id
  * @property int $host_id
  * @property string $web_root
@@ -33,8 +34,8 @@ class ProjectDetail extends \common\models\BaseModel
     public function rules()
     {
         return [
-            [['host_id', 'web_root'], 'required'],
-            [['host_id', 'created_at', 'updated_at', 'is_master'], 'integer'],
+            [['project_id', 'host_id', 'web_root'], 'required'],
+            [['project_id', 'host_id', 'created_at', 'updated_at', 'is_master'], 'integer'],
             [['web_root', 'log_root', 'web_back', 'log_back'], 'string', 'max' => 45],
         ];
     }
@@ -45,6 +46,7 @@ class ProjectDetail extends \common\models\BaseModel
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'project_id' => 'Project ID',
             'host_id' => 'Host ID',
             'web_root' => 'Web Root',
