@@ -67,4 +67,23 @@ class HostBasic extends \common\models\BaseModel
             'updated_at' => 'Updated At',
         ];
     }
+
+    /*
+     * 获取port
+     * */
+    public function getPort()
+    {
+        $hostArray = explode(':', $this->host_ip);
+        if (isset($hostArray[1])) {
+            return $hostArray[1];
+        } else {
+            return '22';
+        }
+    }
+
+    public function getHostIp()
+    {
+        $hostArray = explode(':', $this->host_ip);
+        return $hostArray[0];
+    }
 }

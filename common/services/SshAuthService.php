@@ -141,4 +141,14 @@ class SshAuthService extends BaseService
         return $this->configDir . DIRECTORY_SEPARATOR . 'config';
     }
 
+    public function getPrivateDir()
+    {
+        return $this->configDir . '/id_rsa.pub';
+    }
+
+    public function getPublicDir()
+    {
+        return $this->configDir . '/id_rsa';
+    }
+
 }
