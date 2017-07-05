@@ -102,16 +102,22 @@ class ProjectRepositoryService extends BaseService
      * 从服务器上下载文件
      * @var
      */
+    public function downFileByOriginal($distant, $local)
+    {
+        $connection = $this->getOriginalConnection();
+        $realDistant = $this->projectMainHost->web_root . $distant;
+        $realLocal = $local;
+        return $result = ssh2_scp_recv($connection, $realDistant, $realLocal);
+    }
     public function downFile($distant, $local)
     {
-            $connection = $this->getConnection();
-            $scp = $connection->getSftp();
-            $realDistant = $this->projectMainHost->web_root . $distant;
-            $realLocal = $local;
-            var_dump($scp, $realDistant, $realLocal);die;
-            return $scp->receive($realDistant, $realLocal);
+        $connection = $this->getOriginalConnection();
+        $scp = $connection->getSftp();
+        $realDistant = $this->projectMainHost->web_root . $distant;
+        $realLocal = $local;
+        var_dump($scp, $realDistant, $realLocal);die;
+        return $scp->receive($realDistant, $realLocal);
     }
-
     /**
      *
      * $distant 如果是相对路径则从，映射的路径开始;如果是绝对路径则是，web根目录
@@ -122,11 +128,30 @@ class ProjectRepositoryService extends BaseService
     public function execCmd($cmd)
     {
         $connection = $this->getConnection();
-        $result=$connection->getExec()->run($cmd);
+        $exec=$connection->getExec();
+        $resource=$exec->getResource();//->run($cmd);
+        var_dump($resource);
+        var_dump($exec->getSessionResource());
+        var_dump($exec->run($cmd));die;
         var_dump($result);
         die;
     }
 
+    /**
+     *  原始方式运行数据
+     */
+    public function execOriginalCmd($cmd)
+    {
+        $connection = $this->getOriginalConnection();
+        $stream = ssh2_exec($connection, $cmd);
+        $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+        stream_set_blocking($errorStream, true);
+        stream_set_blocking($stream, true);
+
+        $output=stream_get_contents($stream);
+        $error= stream_get_contents($errorStream);
+        return ['code'=>0,'output'=>$output,'error'=>$error];
+    }
     public function originalDownFile($distant,$local){
         if ($this->projectMainHost instanceof ProjectDetail && $this->hostMain instanceof HostBasic) {
             $realDistant = $this->projectMainHost->web_root . $distant;
@@ -168,7 +193,7 @@ class ProjectRepositoryService extends BaseService
                 //$authentication = $configuration->getAuthentication();
 
                 $configuration = new Configuration($this->hostMain->getHostIp(),$this->hostMain->getPort());
-                $authentication = new PublicKeyFile($this->hostMain->user_name, $sshAuthServer->getPublicDir(), $sshAuthServer->getPublicDir());
+                $authentication = new PublicKeyFile($this->hostMain->user_name, $sshAuthServer->getPublicDir(), $sshAuthServer->getPrivateDir());
             } else {
                 $configuration = new Configuration($this->hostMain->host_alias);
                 $authentication = new SshPassword($this->hostMain->user_name, $this->hostMain->user_pass);
@@ -184,29 +209,16 @@ class ProjectRepositoryService extends BaseService
             if ($this->hostMain->auth_type == HostBasic::AUTH_TYPE_RSAKEY) {
                 $sshAuthServer = (new SshAuthService());
                 $sshAuthServer->initByHostModel($this->hostMain);
-                $connection = ssh2_connect($this->hostMain->getHostIp(),$this->hostMain->getPort());
-                ssh2_auth_pubkey_file($connection, $this->hostMain->user_name, $sshAuthServer->getPublicDir(), $sshAuthServer->getPublicDir());
-
+                Yii::trace(['host' => $this->hostMain->getHostIp(), 'port' => $this->hostMain->getPort(), 'username' => $this->hostMain->user_name, 'idrsa' => $sshAuthServer->getPrivateDir(), 'idrsapub' => $sshAuthServer->getPublicDir()], __CLASS__);
+                $connection = ssh2_connect($this->hostMain->getHostIp(), $this->hostMain->getPort());
+                ssh2_auth_pubkey_file($connection, $this->hostMain->user_name, $sshAuthServer->getPublicDir(), $sshAuthServer->getPrivateDir());
             } else {
-                $connection = ssh2_connect($this->hostMain->getHostIp(),$this->hostMain->getPort());
+                Yii::trace(['host' => $this->hostMain->getHostIp(), 'port' => $this->hostMain->getPort(), 'username' => $this->hostMain->user_name, 'password' => $this->hostMain->user_pass], __CLASS__);
+                $connection = ssh2_connect($this->hostMain->getHostIp(), $this->hostMain->getPort());
                 ssh2_auth_password($connection, $this->hostMain->user_name, $this->hostMain->user_pass);
             }
             $this->connection = $connection;
         }
         return $this->connection;
-
-        /*
-         *
-         *
-        $stream = ssh2_exec($connection, 'ls /data/www');
-        $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
-
-        stream_set_blocking($errorStream, true);
-        stream_set_blocking($stream, true);
-
-        echo "Output: " . stream_get_contents($stream);
-        echo "Error: " . stream_get_contents($errorStream);
-
-        */
     }
 }

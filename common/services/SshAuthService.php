@@ -143,12 +143,12 @@ class SshAuthService extends BaseService
 
     public function getPrivateDir()
     {
-        return $this->configDir . '/id_rsa.pub';
+        return $this->configDir . '/id_rsa';
     }
 
     public function getPublicDir()
     {
-        return $this->configDir . '/id_rsa';
+        return $this->configDir . '/id_rsa.pub';
     }
 
 }

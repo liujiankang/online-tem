@@ -99,10 +99,14 @@ class TestController extends Controller
         $local = '/webCode/online/run/test/123.php';
         $server = new ProjectRepositoryService();
         $server->init(TaskDetail::findOne(2));
-        $result=$server->execCmd('ls /data/www');
-        var_dump($result);die;
-        //$result=$server->downFile($dist,$local);
-        $result=$server->downFileByScp2($dist,$local);
+
+        //$result=$server->execCmd('ls /data/www');
+        //var_dump($result);
+
+
+        //$result=$server->execOriginalCmd('ls /data/www');
+        //var_dump($result);die;
+        $result=$server->downFileByOriginal($dist,$local);
         var_dump($result);
         phpinfo();
         var_dump(php_ini_loaded_file());
