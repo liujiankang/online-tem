@@ -94,21 +94,22 @@ class TestController extends Controller
 
     public function actionDown()
     {
-        (new SshAuthService())->init();
         $dist = '/yii';
         $local = '/webCode/online/run/test/123.php';
         $server = new ProjectRepositoryService();
         $server->init(TaskDetail::findOne(2));
 
-        //$result=$server->execCmd('ls /data/www');
-        //var_dump($result);
-
-
-        //$result=$server->execOriginalCmd('ls /data/www');
-        //var_dump($result);die;
-        $result=$server->downFileByOriginal($dist,$local);
+        $result=$server->execCmd('ls /data/www/ljk');
         var_dump($result);
-        phpinfo();
+
+        $result=$server->downFile($dist,$local);
+        var_dump($result);
+
+        $result=$server->uploadFile($local,$dist.'.123');
+        var_dump($result);
+
+        $result=$server->execCmd('ls -al /data/www/ljk/yii');
+        var_dump($result);
         var_dump(php_ini_loaded_file());
        // var_dump($server);
     }

@@ -6,7 +6,7 @@
  * Time: 下午5:56
  */
 
-namespace common\services;
+namespace common\services\ssh;
 
 
 use common\helper\FileHelper;
@@ -14,6 +14,7 @@ use common\models\host\HostBasic;
 use common\models\repository\RepositoryBasic;
 use common\models\task\TaskBasic;
 use common\models\task\TaskDetail;
+use common\services\BaseService;
 use Yii;
 
 class SshAuthService extends BaseService
@@ -29,7 +30,7 @@ class SshAuthService extends BaseService
     
     
 ';
-    public $defaultConfig='
+    public $defaultConfig = '
     StrictHostKeyChecking=no
 ';
     public $temp_rsa_file = [];
@@ -45,7 +46,7 @@ class SshAuthService extends BaseService
             }
 
             $fileHand = fopen($this->getConfigFileDir(), 'w+');
-            $config.=$this->defaultConfig;
+            $config .= $this->defaultConfig;
             fwrite($fileHand, $config);
             fclose($fileHand);
         }
@@ -151,4 +152,14 @@ class SshAuthService extends BaseService
         return $this->configDir . '/id_rsa.pub';
     }
 
+    public function unInit()
+    {
+        @unlink($this->getPrivateDir());
+        @unlink($this->getPublicDir());
+    }
+
+    public function getScp()
+    {
+
+    }
 }

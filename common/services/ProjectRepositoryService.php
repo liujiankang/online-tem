@@ -13,13 +13,8 @@ use common\models\host\HostBasic;
 use common\models\project\ProjectDetail;
 use common\models\repository\RepositoryBasic;
 use common\models\task\TaskDetail;
+use common\services\ssh\SshAuthService;
 use GitElephant\Repository;
-use Ssh\Authentication\Password as SshPassword;
-use Ssh\Authentication\PublicKeyFile;
-use Ssh\Configuration;
-use Ssh\Session;
-use Ssh\SshConfigFileConfiguration;
-use yii\helpers\FileHelper;
 use Yii;
 
 /*
@@ -45,36 +40,6 @@ class ProjectRepositoryService extends BaseService
     /*@var $Session Session*/
     private $connection;
     public $isHaveMasterHost = false;
-
-    public function setAuth()
-    {
-        //$name = md5($repositoryBasic->id . $repositoryBasic->name);
-        $path = "/home/www-data/.ssh/id_rsa";
-        $pathPub = "/home/www-data/.ssh/id_rsa.pub";
-        if ($this->hostMain->auth_type == HostBasic::AUTH_TYPE_RSAKEY) {
-
-            //私钥
-            $fHand = fopen($path, 'w');
-            fwrite($fHand, $this->hostMain->id_rsa);
-            fclose($fHand);
-            chmod($path, '600');
-
-            //公钥
-
-            $fHand = fopen($pathPub, 'w');
-            fwrite($fHand, $this->hostMain->id_rsa_pub);
-            fclose($fHand);
-            chmod($pathPub, '600');
-        }
-    }
-
-    public function unsetAuth()
-    {
-        $path = "/home/www-data/.ssh/id_rsa";
-        $pathPub = "/home/www-data/.ssh/id_rsa.pub";
-        @unlink($path);
-        @unlink($pathPub);
-    }
 
     public function init(TaskDetail $oneTask)
     {
@@ -102,47 +67,20 @@ class ProjectRepositoryService extends BaseService
      * 从服务器上下载文件
      * @var
      */
-    public function downFileByOriginal($distant, $local)
+    public function downFile($distant, $local)
     {
-        $connection = $this->getOriginalConnection();
+        $connection = $this->getConnection();
         $realDistant = $this->projectMainHost->web_root . $distant;
         $realLocal = $local;
         return $result = ssh2_scp_recv($connection, $realDistant, $realLocal);
-    }
-    public function downFile($distant, $local)
-    {
-        $connection = $this->getOriginalConnection();
-        $scp = $connection->getSftp();
-        $realDistant = $this->projectMainHost->web_root . $distant;
-        $realLocal = $local;
-        var_dump($scp, $realDistant, $realLocal);die;
-        return $scp->receive($realDistant, $realLocal);
-    }
-    /**
-     *
-     * $distant 如果是相对路径则从，映射的路径开始;如果是绝对路径则是，web根目录
-     * $local 如果是相对路径则从，映射的web路径开始;如果是绝对路径则是绝对路径
-     * 从服务器上下载文件
-     * @var
-     */
-    public function execCmd($cmd)
-    {
-        $connection = $this->getConnection();
-        $exec=$connection->getExec();
-        $resource=$exec->getResource();//->run($cmd);
-        var_dump($resource);
-        var_dump($exec->getSessionResource());
-        var_dump($exec->run($cmd));die;
-        var_dump($result);
-        die;
     }
 
     /**
      *  原始方式运行数据
      */
-    public function execOriginalCmd($cmd)
+    public function execCmd($cmd)
     {
-        $connection = $this->getOriginalConnection();
+        $connection = $this->getConnection();
         $stream = ssh2_exec($connection, $cmd);
         $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
         stream_set_blocking($errorStream, true);
@@ -152,58 +90,19 @@ class ProjectRepositoryService extends BaseService
         $error= stream_get_contents($errorStream);
         return ['code'=>0,'output'=>$output,'error'=>$error];
     }
-    public function originalDownFile($distant,$local){
-        if ($this->projectMainHost instanceof ProjectDetail && $this->hostMain instanceof HostBasic) {
-            $realDistant = $this->projectMainHost->web_root . $distant;
-            $realLocal = $local;
-            $username=$this->hostMain->user_name;
-            $port='22';
-            $host=$this->hostMain->host_ip;
-            $id_rsa='/home/www-data/.ssh/id_rsa';
-            $cmd ="/usr/bin/scp -o \"StrictHostKeyChecking no\" -P{$port} -i $id_rsa $username@$host:$realDistant $realLocal";
-            var_dump($cmd);
-            //exec($cmd,$result);var_dump($result);var_dump(shell_exec('uname')); die;
-//            var_dump(shell_exec('ls -al'));
-            var_dump(shell_exec($cmd));
-//            var_dump(shell_exec('ls -al /home/www-data/.ssh'));
-//            var_dump(shell_exec('/usr/bin/scp'));die;
-            return shell_exec($cmd);
-        } else {
-            throw new \Exception('没有可供链接的服务器');
-        }
-    }
 
     /*向服务器上传文件*/
-    public function uploadFile($source, $dist)
+    public function uploadFile($local_file, $remote_file)
     {
-        return true;
+        $mod = 0644;
+        $connection = $this->getConnection();
+        $realDistant = $this->projectMainHost->web_root . $remote_file;
+        $realLocal = $local_file;
+        return ssh2_scp_send($connection, $realLocal, $realDistant, $mod);
     }
 
-    /**
-     * @return Session $connection
-     */
+
     public function getConnection()
-    {
-        if (!$this->connection) {
-            if ($this->hostMain->auth_type == HostBasic::AUTH_TYPE_RSAKEY) {
-                $sshAuthServer = (new SshAuthService());
-                $sshAuthServer->initByHostModel($this->hostMain);
-                //$configFile = $sshAuthServer->getConfigFileDir();
-                //$configuration = new SshConfigFileConfiguration($configFile, $this->hostMain->host_ip);
-                //$authentication = $configuration->getAuthentication();
-
-                $configuration = new Configuration($this->hostMain->getHostIp(),$this->hostMain->getPort());
-                $authentication = new PublicKeyFile($this->hostMain->user_name, $sshAuthServer->getPublicDir(), $sshAuthServer->getPrivateDir());
-            } else {
-                $configuration = new Configuration($this->hostMain->host_alias);
-                $authentication = new SshPassword($this->hostMain->user_name, $this->hostMain->user_pass);
-            }
-            $this->connection = new Session($configuration, $authentication);
-        }
-        return $this->connection;
-    }
-
-    public function getOriginalConnection()
     {
         if (!$this->connection) {
             if ($this->hostMain->auth_type == HostBasic::AUTH_TYPE_RSAKEY) {
