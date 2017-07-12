@@ -8,6 +8,7 @@
 /run/repo/*
 /run/patch/*
 /run/auth/*
+/run/test/*
 # phpstorm project files
 .idea
 
