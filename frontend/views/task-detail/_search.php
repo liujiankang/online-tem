@@ -23,19 +23,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'repo_id') ?>
 
-    <?= $form->field($model, 'base_commit_hash') ?>
-
-    <?php // echo $form->field($model, 'task_commit_hash') ?>
-
-    <?php // echo $form->field($model, 'base_branch') ?>
+    <?= $form->field($model, 'base_branch') ?>
 
     <?php // echo $form->field($model, 'task_branch') ?>
 
+    <?php // echo $form->field($model, 'base_commit_hash') ?>
+
+    <?php // echo $form->field($model, 'task_commit_hash') ?>
+
     <?php // echo $form->field($model, 'dir_dealing') ?>
-
-    <?php // echo $form->field($model, 'before_task') ?>
-
-    <?php // echo $form->field($model, 'after_task') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

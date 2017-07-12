@@ -18,19 +18,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'repo_id')->textInput() ?>
 
-    <?= $form->field($model, 'base_commit_hash')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'task_commit_hash')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'base_branch')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'task_branch')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'base_commit_hash')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'task_commit_hash')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'dir_dealing')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'before_task')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'after_task')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'created_at')->textInput() ?>
 

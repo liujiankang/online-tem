@@ -19,7 +19,7 @@ class TaskDetailSearch extends TaskDetail
     {
         return [
             [['id', 'task_id', 'project_id', 'repo_id', 'created_at', 'updated_at'], 'integer'],
-            [['base_commit_hash', 'task_commit_hash', 'base_branch', 'task_branch', 'dir_dealing', 'before_task', 'after_task'], 'safe'],
+            [['base_branch', 'task_branch', 'base_commit_hash', 'task_commit_hash', 'dir_dealing'], 'safe'],
         ];
     }
 
@@ -67,13 +67,11 @@ class TaskDetailSearch extends TaskDetail
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'base_commit_hash', $this->base_commit_hash])
-            ->andFilterWhere(['like', 'task_commit_hash', $this->task_commit_hash])
-            ->andFilterWhere(['like', 'base_branch', $this->base_branch])
+        $query->andFilterWhere(['like', 'base_branch', $this->base_branch])
             ->andFilterWhere(['like', 'task_branch', $this->task_branch])
-            ->andFilterWhere(['like', 'dir_dealing', $this->dir_dealing])
-            ->andFilterWhere(['like', 'before_task', $this->before_task])
-            ->andFilterWhere(['like', 'after_task', $this->after_task]);
+            ->andFilterWhere(['like', 'base_commit_hash', $this->base_commit_hash])
+            ->andFilterWhere(['like', 'task_commit_hash', $this->task_commit_hash])
+            ->andFilterWhere(['like', 'dir_dealing', $this->dir_dealing]);
 
         return $dataProvider;
     }
