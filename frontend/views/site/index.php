@@ -27,6 +27,8 @@ $this->title = 'My Yii Application';
             <div class="col-lg-4">
                 <h2>任务管理</h2>
                 <h2><a class="btn btn-lg btn-success" href="/task-basic/index">task basic</a></h2>
+                <h2><a class="btn btn-lg btn-success" href="/task-detail/index">task detail</a></h2>
+                <h2><a class="btn btn-lg btn-success" href="/task-command/index">task detail</a></h2>
                 <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
             </div>
         </div>
