@@ -23,7 +23,8 @@ DROP TABLE IF EXISTS `el_project_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `el_project_detail` (
-  `project_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
   `host_id` int(11) NOT NULL,
   `web_root` varchar(45) NOT NULL,
   `log_root` varchar(45) DEFAULT NULL,
@@ -31,8 +32,9 @@ CREATE TABLE `el_project_detail` (
   `log_back` varchar(45) DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`project_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `is_master` int(11) DEFAULT '0' COMMENT 'master/slave',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +43,7 @@ CREATE TABLE `el_project_detail` (
 
 LOCK TABLES `el_project_detail` WRITE;
 /*!40000 ALTER TABLE `el_project_detail` DISABLE KEYS */;
+INSERT INTO `el_project_detail` VALUES (1,1,3,'/home/ufo',NULL,NULL,NULL,NULL,NULL,1),(2,2,4,'/data/www/ljk/yii',NULL,NULL,NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `el_project_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-17 17:00:47
+-- Dump completed on 2017-07-17  7:46:03

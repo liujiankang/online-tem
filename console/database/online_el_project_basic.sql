@@ -28,7 +28,7 @@ CREATE TABLE `el_project_basic` (
   `updated_at` int(11) DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `el_project_basic` (
 
 LOCK TABLES `el_project_basic` WRITE;
 /*!40000 ALTER TABLE `el_project_basic` DISABLE KEYS */;
-INSERT INTO `el_project_basic` VALUES (1,'上线代码系统',1497165469,1497165469);
+INSERT INTO `el_project_basic` VALUES (1,'上线代码系统',1497165469,1497165469),(2,'wcg_dev开发系统',NULL,NULL);
 /*!40000 ALTER TABLE `el_project_basic` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-17 17:00:47
+-- Dump completed on 2017-07-17  7:46:03
