@@ -2,12 +2,14 @@
 
 namespace frontend\controllers;
 
+use common\services\RepositoryBasicService;
 use Yii;
 use common\models\repository\RepositoryBasic;
 use common\models\repository\RepositoryBasicSearch;
 use frontend\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * RepositoryBasicController implements the CRUD actions for RepositoryBasic model.
@@ -120,5 +122,15 @@ class RepositoryBasicController extends BaseController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+
+    public function actionGetAllBranch($id){
+        Yii::$app->getResponse()->format=Response::FORMAT_JSON;
+        $repoModel=$this->findModel($id);
+        $repo=(new RepositoryBasicService())->init($repoModel);
+        $branch=$repo->getAllBranch(true);
+        $returnData=['code'=>0,'message'=>'','data'=>['branch'=>$branch]];
+        return $returnData;
     }
 }

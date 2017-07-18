@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\services\TaskDetailService;
 use Yii;
 use common\models\task\TaskDetail;
 use common\models\task\TaskDetailSearch;
@@ -120,5 +121,15 @@ class TaskDetailController extends BaseController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionPatch($id){
+        $taskDetail=$this->findModel($id);
+        (new TaskDetailService())->patch($taskDetail);
+    }
+
+    public function actionBackup($id){
+        $taskDetail=$this->findModel($id);
+        (new TaskDetailService())->patch($taskDetail);
     }
 }

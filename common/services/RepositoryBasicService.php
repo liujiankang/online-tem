@@ -71,6 +71,7 @@ class RepositoryBasicService extends BaseService
                 $repositoryInstance = $this->createRepo();
             }
         } catch (\Exception $e) {
+            Yii::error($e);
             $repositoryInstance = $this->createRepo();
         }
         $this->repositoryInstance = $repositoryInstance;
@@ -212,4 +213,7 @@ class RepositoryBasicService extends BaseService
         }
     }
 
+    public function getAllBranch($nameOnly=false){
+        return $this->repositoryInstance->getBranches($nameOnly,true);
+    }
 }
