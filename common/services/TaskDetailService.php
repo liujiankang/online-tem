@@ -16,10 +16,12 @@ use Yii;
 
 class TaskDetailService extends BaseService
 {
+    /* var $taskDetail TaskDetail*/
+    public $taskDetail;
 
-    public $task;
-    public $taskDetails;
-
+    public function init($detail_id){
+        $this->taskDetail = TaskDetail::findOne($detail_id);
+    }
 
     public function patch(TaskDetail $oneTask )
     {
@@ -64,32 +66,13 @@ class TaskDetailService extends BaseService
                 //$sourceFile = $repositoryBasic->local_path . DIRECTORY_SEPARATOR . $oneFile;
                 $sourceFile = $oneFile;
                 $distFile = $backupPath . DIRECTORY_SEPARATOR . $oneFile;
-                $isDowned=$projectRepositoryService->downFile($sourceFile,$distFile);
-                if ($isDowned && is_file($sourceFile)) {
-                    $distFileDir = dirname($distFile);
-                    if (!is_dir($distFileDir)) {
-                        FileHelper::createDirectory($distFileDir);
-                    }
-                    $result = true;
-                } else {
-                    $result = false;
-                }
+                $result=$projectRepositoryService->downFile($sourceFile,$distFile);
                 $copyData = ['$sourceFile' => $sourceFile, '$distFile' => $distFile, '$result' => $result];
                 array_push($patchResult, $copyData);
             }
         Yii::info(['patch result', $patchResult], __CLASS__);
         return true;
 
-    }
-
-
-    public function getSourcePath(TaskDetail $task)
-    {
-
-    }
-
-    public function getTargetPath(TaskDetail $task)
-    {
     }
 
 

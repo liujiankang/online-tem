@@ -9,6 +9,7 @@
 namespace common\services;
 
 
+use common\helper\FileHelper;
 use common\models\host\HostBasic;
 use common\models\project\ProjectDetail;
 use common\models\repository\RepositoryBasic;
@@ -72,7 +73,21 @@ class ProjectRepositoryService extends BaseService
         $connection = $this->getConnection();
         $realDistant = $this->projectMainHost->web_root . $distant;
         $realLocal = $local;
-        return $result = ssh2_scp_recv($connection, $realDistant, $realLocal);
+        //如果远程文件存在
+        //如果本地目录存在
+
+        $fileInfo = ssh2_sftp_stat($connection, $realDistant);
+        if ($fileInfo) {
+            $localPath = dirname($realLocal);
+            if (!is_dir($localPath)) {
+                FileHelper::createDirectory($localPath);
+            }
+            $result = ssh2_scp_recv($connection, $realDistant, $realLocal);
+        } else {
+            $result = 'not exit file';
+        }
+
+        return $result;
     }
 
     /**
