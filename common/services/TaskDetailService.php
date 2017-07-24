@@ -29,8 +29,7 @@ class TaskDetailService extends BaseService
 
             $repositoryBasic = RepositoryBasic::findOne($oneTask->repo_id);
             $repositoryBasicService = (new RepositoryBasicService())->init($repositoryBasic);
-            $diffFile = $repositoryBasicService->getDiffFilesOfCommitByCmd($oneTask->base_commit_hash, $oneTask->task_branch);
-            Yii::trace(['diff file name is', $diffFile], __CLASS__);
+            $diffFile = $repositoryBasicService->getDiffFilesOfCommitByCmd($oneTask->base_commit_hash, $oneTask->task_commit_hash);
             $patchPath = $this->getPatchDir($oneTask);
             foreach ($diffFile as $oneFile) {
                 $sourceFile = $repositoryBasic->local_path . DIRECTORY_SEPARATOR . $oneFile;
@@ -59,8 +58,7 @@ class TaskDetailService extends BaseService
             $projectRepositoryService=(new ProjectRepositoryService())->init($oneTask);
             $repositoryBasic = RepositoryBasic::findOne($oneTask->repo_id);
             $repositoryBasicService = (new RepositoryBasicService())->init($repositoryBasic);
-            $diffFile = $repositoryBasicService->getDiffFilesOfCommitByCmd($oneTask->base_commit_hash, $oneTask->task_branch);
-            Yii::trace(['diff file name is', $diffFile], __CLASS__);
+            $diffFile = $repositoryBasicService->getDiffFilesOfCommitByCmd($oneTask->base_commit_hash, $oneTask->task_commit_hash);
             $backupPath = $this->getBackupDir($oneTask);
             foreach ($diffFile as $oneFile) {
                 //$sourceFile = $repositoryBasic->local_path . DIRECTORY_SEPARATOR . $oneFile;

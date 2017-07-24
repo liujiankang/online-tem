@@ -125,11 +125,13 @@ class TaskDetailController extends BaseController
 
     public function actionPatch($id){
         $taskDetail=$this->findModel($id);
-        (new TaskDetailService())->patch($taskDetail);
+        $result=(new TaskDetailService())->patch($taskDetail);
+        var_dump($result);
     }
 
     public function actionBackup($id){
         $taskDetail=$this->findModel($id);
-        (new TaskDetailService())->patch($taskDetail);
+        $result=(new TaskDetailService())->backup($taskDetail);
+        var_dump($result);
     }
 }

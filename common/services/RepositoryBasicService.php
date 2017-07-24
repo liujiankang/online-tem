@@ -75,17 +75,17 @@ class RepositoryBasicService extends BaseService
             $repositoryInstance = $this->createRepo();
         }
         $this->repositoryInstance = $repositoryInstance;
-        return $this;
 
-//        $commit = $repositoryInstance->getCommit();
-//        var_dump($commit->getMessage());
-//        var_dump($commit->getSha());
-//        var_dump($commit->getCommitter());
-//        var_dump($commit->getContainedIn());
-//        var_dump($commit->getTree());
-//        //var_dump($commit->getRepository());
-//        //var_dump($commit->getDiff());
-//        var_dump($commit->getParents());
+        /*$commit = $repositoryInstance->getCommit();
+        var_dump($commit->getMessage());
+        var_dump($commit->getSha());
+        var_dump($commit->getCommitter());
+        var_dump($commit->getContainedIn());
+        var_dump($commit->getTree());
+        var_dump($commit->getRepository());
+        var_dump($commit->getDiff());
+        var_dump($commit->getParents());
+        die;*/
 
 //        $repo->cloneFrom("git://github.com/matteosister/GitElephant.git");
 //        Repository::createFromRemote();
@@ -95,7 +95,7 @@ class RepositoryBasicService extends BaseService
 //        var_dump($repo->getLog('master_new', null, 2)->first()->getSha());
 //        var_dump($repo->getLog('master', null, 2)->first()->getMessage()->toString());
 //        var_dump($repo->getLog('master', null, 2)->first()->getSha());
-//        return $this;
+        return $this;
     }
 
     public function getLastCommitMsg($tagOrBranch = null)
@@ -174,6 +174,7 @@ class RepositoryBasicService extends BaseService
                 array_push($returnArray, $one);
             }
         }
+        Yii::trace(["commit $commitOld $commitNew",'diff file',$returnArray],__CLASS__);
         return $returnArray;
     }
 

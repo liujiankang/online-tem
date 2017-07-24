@@ -23,7 +23,7 @@ $this->registerJs('initBind();');
 <script language="JavaScript">
     function initBind() {
         $('repo_id').on('change',function () {
-            $.get()
+            $.get();
         });
 
         $('task_branch').on('change',function () {
