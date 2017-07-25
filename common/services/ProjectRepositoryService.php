@@ -40,6 +40,7 @@ class ProjectRepositoryService extends BaseService
 
     /*@var $Session Session*/
     private $connection;
+    private $ssh2_sftp;
     public $isHaveMasterHost = false;
 
     public function init(TaskDetail $oneTask)
@@ -71,12 +72,16 @@ class ProjectRepositoryService extends BaseService
     public function downFile($distant, $local)
     {
         $connection = $this->getConnection();
-        $realDistant = $this->projectMainHost->web_root . $distant;
+        $ssh2_sftp= $this->getSsh2_sftp();
+        $realDistant = $this->projectMainHost->web_root .DIRECTORY_SEPARATOR. $distant;
         $realLocal = $local;
         //如果远程文件存在
         //如果本地目录存在
+        Yii::trace(['$realDistant' => $realDistant, '$realLocal' => $realLocal]);
+        $testFile = $this->execCmd("test -e $realDistant");
+        Yii::trace(['$testFile' => $testFile,"test -e $realDistant" ]);
 
-        $fileInfo = ssh2_sftp_stat($connection, $realDistant);
+        $fileInfo = ssh2_sftp_stat($ssh2_sftp, $realDistant);
         if ($fileInfo) {
             $localPath = dirname($realLocal);
             if (!is_dir($localPath)) {
@@ -134,5 +139,13 @@ class ProjectRepositoryService extends BaseService
             $this->connection = $connection;
         }
         return $this->connection;
+    }
+
+    public function getSsh2_sftp()
+    {
+        if (empty($this->ssh2_sftp)) {
+            $this->ssh2_sftp = ssh2_sftp($this->getConnection());
+        }
+        return $this->ssh2_sftp;
     }
 }

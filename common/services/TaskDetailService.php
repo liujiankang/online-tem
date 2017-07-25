@@ -56,6 +56,8 @@ class TaskDetailService extends BaseService
     {
         $patchResult = [];
             $projectRepositoryService=(new ProjectRepositoryService())->init($oneTask);
+            $cmd=$projectRepositoryService->execCmd('ls /');
+
             $repositoryBasic = RepositoryBasic::findOne($oneTask->repo_id);
             $repositoryBasicService = (new RepositoryBasicService())->init($repositoryBasic);
             $diffFile = $repositoryBasicService->getDiffFilesOfCommitByCmd($oneTask->base_commit_hash, $oneTask->task_commit_hash);
